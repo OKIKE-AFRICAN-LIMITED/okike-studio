@@ -1,0 +1,17 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="240" height="200" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Service / Dimensional Design">
+<path id="Vector" d="M121 180C166.287 180 203 174.627 203 168C203 161.373 166.287 156 121 156C75.7127 156 39 161.373 39 168C39 174.627 75.7127 180 121 180Z" fill="#DDDED4"/>
+<path id="Vector_2" d="M36 92L140 42L211 77V94L107 145L36 110V92Z" fill="#AF3512"/>
+<path id="Vector_3" d="M36 92L140 42L211 77L107 128L36 92Z" fill="#F34309"/>
+<path id="Vector_4" d="M53 64L151 16L191 37L93 85L53 64Z" fill="#FF825C"/>
+<path id="Vector_5" d="M53 64V76L93 97V85L53 64Z" fill="#AF3512"/>
+<path id="Vector_6" d="M93 85L191 37V49L93 97V85Z" fill="#D63A0A"/>
+<path id="Vector_7" d="M74 138L157 97L196 117L113 158L74 138Z" fill="#F34309"/>
+<path id="Vector_8" d="M74 138V149L113 169V158L74 138Z" fill="#AF3512"/>
+<path id="Vector_9" d="M113 158L196 117V128L113 169V158Z" fill="#D63A0A"/>
+<g id="Vector_10">
+<path d="M61 103L139 65ZM82 114L158 77Z" fill="black"/>
+<path d="M61 103L139 65M82 114L158 77" stroke="#FFDACE" stroke-width="2"/>
+</g>
+</g>
+</svg>

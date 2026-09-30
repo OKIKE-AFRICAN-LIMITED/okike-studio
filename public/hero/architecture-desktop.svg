@@ -1,0 +1,144 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="536" height="540" viewBox="0 0 536 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Structure / Three dimensional modular planes" clip-path="url(#clip0_0_22)">
+<path id="Vector" d="M536 0H0V540H536V0Z" fill="#10120E"/>
+<g id="Vector_2">
+<path d="M28 0V540Z" fill="black"/>
+<path d="M28 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_3">
+<path d="M68 0V540Z" fill="black"/>
+<path d="M68 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_4">
+<path d="M108 0V540Z" fill="black"/>
+<path d="M108 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_5">
+<path d="M148 0V540Z" fill="black"/>
+<path d="M148 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_6">
+<path d="M188 0V540Z" fill="black"/>
+<path d="M188 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_7">
+<path d="M228 0V540Z" fill="black"/>
+<path d="M228 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_8">
+<path d="M268 0V540Z" fill="black"/>
+<path d="M268 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_9">
+<path d="M308 0V540Z" fill="black"/>
+<path d="M308 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_10">
+<path d="M348 0V540Z" fill="black"/>
+<path d="M348 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_11">
+<path d="M388 0V540Z" fill="black"/>
+<path d="M388 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_12">
+<path d="M428 0V540Z" fill="black"/>
+<path d="M428 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_13">
+<path d="M468 0V540Z" fill="black"/>
+<path d="M468 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_14">
+<path d="M508 0V540Z" fill="black"/>
+<path d="M508 0V540" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_15">
+<path d="M0 20H536Z" fill="black"/>
+<path d="M0 20H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_16">
+<path d="M0 60H536Z" fill="black"/>
+<path d="M0 60H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_17">
+<path d="M0 100H536Z" fill="black"/>
+<path d="M0 100H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_18">
+<path d="M0 140H536Z" fill="black"/>
+<path d="M0 140H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_19">
+<path d="M0 180H536Z" fill="black"/>
+<path d="M0 180H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_20">
+<path d="M0 220H536Z" fill="black"/>
+<path d="M0 220H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_21">
+<path d="M0 260H536Z" fill="black"/>
+<path d="M0 260H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_22">
+<path d="M0 300H536Z" fill="black"/>
+<path d="M0 300H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_23">
+<path d="M0 340H536Z" fill="black"/>
+<path d="M0 340H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_24">
+<path d="M0 380H536Z" fill="black"/>
+<path d="M0 380H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_25">
+<path d="M0 420H536Z" fill="black"/>
+<path d="M0 420H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_26">
+<path d="M0 460H536Z" fill="black"/>
+<path d="M0 460H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<g id="Vector_27">
+<path d="M0 500H536Z" fill="black"/>
+<path d="M0 500H536" stroke="#272923" stroke-width="0.5"/>
+</g>
+<path id="Vector_28" d="M268 489C359.127 489 433 477.359 433 463C433 448.641 359.127 437 268 437C176.873 437 103 448.641 103 463C103 477.359 176.873 489 268 489Z" fill="#090A08"/>
+<g id="Vector_29">
+<path d="M268 52V490ZM76 138V439ZM460 138V439Z" fill="black"/>
+<path d="M268 52V490M76 138V439M460 138V439" stroke="#59603E" stroke-dasharray="3 5"/>
+</g>
+<g id="Group">
+<path id="Vector_30" d="M76 324L268 420L460 324V364L268 460L76 364V324Z" fill="#67701D"/>
+<path id="Vector_31" d="M268 420L460 324V364L268 460V420Z" fill="#77821C"/>
+<path id="Vector_32" d="M180 324L268 280L356 324V360L268 316L180 360V324Z" fill="#66721D"/>
+<path id="Vector_33" fill-rule="evenodd" clip-rule="evenodd" d="M268 228L460 324L268 420L76 324L268 228ZM268 280L180 324L268 368L356 324L268 280Z" fill="#A9B32D"/>
+<path id="Vector_34" d="M76 324L268 228L460 324" stroke="#F4FF85"/>
+</g>
+<g id="Group_2">
+<path id="Vector_35" d="M76 252L268 348L460 252V292L268 388L76 292V252Z" fill="#909B23"/>
+<path id="Vector_36" d="M268 348L460 252V292L268 388V348Z" fill="#77821C"/>
+<path id="Vector_37" d="M180 252L268 208L356 252V288L268 244L180 288V252Z" fill="#66721D"/>
+<path id="Vector_38" fill-rule="evenodd" clip-rule="evenodd" d="M268 156L460 252L268 348L76 252L268 156ZM268 208L180 252L268 296L356 252L268 208Z" fill="#CBD635"/>
+<path id="Vector_39" d="M76 252L268 156L460 252" stroke="#F4FF85"/>
+</g>
+<g id="Group_3">
+<path id="Vector_40" d="M76 180L268 276L460 180V220L268 316L76 220V180Z" fill="#B3BF27"/>
+<path id="Vector_41" d="M268 276L460 180V220L268 316V276Z" fill="#77821C"/>
+<path id="Vector_42" d="M180 180L268 136L356 180V216L268 172L180 216V180Z" fill="#66721D"/>
+<path id="Vector_43" fill-rule="evenodd" clip-rule="evenodd" d="M268 84L460 180L268 276L76 180L268 84ZM268 136L180 180L268 224L356 180L268 136Z" fill="#E3EE32"/>
+<path id="Vector_44" d="M76 180L268 84L460 180" stroke="#F4FF85"/>
+</g>
+<g id="Vector_45">
+<path d="M32 32H48ZM40 24V40ZM488 508H504ZM496 500V516Z" fill="black"/>
+<path d="M32 32H48M40 24V40M488 508H504M496 500V516" stroke="#D9D9D9"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_22">
+<rect width="536" height="540" fill="white"/>
+</clipPath>
+</defs>
+</svg>
