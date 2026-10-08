@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SiteChrome } from "@/components/layout/site-chrome";
+import { MotionProvider } from "@/components/layout/motion-provider";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -19,11 +20,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={bricolage.variable}>
+    <html lang="en" className={bricolage.variable} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')",
+          }}
+        />
+      </head>
       <body id="top" className="flex min-h-screen flex-col">
-        <SiteChrome><Navbar /></SiteChrome>
-        <main className="flex flex-1 flex-col">{children}</main>
-        <SiteChrome><Footer /></SiteChrome>
+        <MotionProvider>
+          <SiteChrome><Navbar /></SiteChrome>
+          <main className="flex flex-1 flex-col">{children}</main>
+          <SiteChrome><Footer /></SiteChrome>
+        </MotionProvider>
       </body>
     </html>
   );

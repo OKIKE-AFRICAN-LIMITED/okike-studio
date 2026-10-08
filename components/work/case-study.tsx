@@ -7,7 +7,7 @@ export function CaseStudy({ project }: { project: SelectedProject & { caseStudy:
 
   return (
     <article>
-      <header className="bg-[#0e0e0e] text-[#f7f7f2]">
+      <header data-gsap="case-study-header" className="bg-[#0e0e0e] text-[#f7f7f2]">
         <div className="mx-auto flex w-full max-w-site flex-col gap-6 px-5 py-10 md:px-10 md:py-14 lg:gap-7 lg:px-14 lg:py-16">
           <Link href="/work" className="flex min-h-11 items-center text-[12px]/[18px] text-[#e8f22b] hover:underline focus-visible:outline-[#e8f22b]">
             ALL WORK&nbsp;&nbsp;/&nbsp;&nbsp;CASE STUDY {study.caseNumber}
@@ -23,11 +23,11 @@ export function CaseStudy({ project }: { project: SelectedProject & { caseStudy:
         </div>
       </header>
 
-      <div className="relative aspect-[390/300] w-full overflow-hidden md:aspect-[768/480] lg:aspect-[1440/700]">
+      <div data-project-image data-gsap="project-image" className="relative aspect-[390/300] w-full overflow-hidden md:aspect-[768/480] lg:aspect-[1440/700]">
         <Image src={project.image} alt={study.coverAlt} fill priority sizes="100vw" className="object-cover" />
       </div>
 
-      <section className="bg-[#f7f7f2] text-[#0e0e0e]" aria-labelledby="brief-heading">
+      <section data-gsap="case-study-section" className="bg-[#f7f7f2] text-[#0e0e0e]" aria-labelledby="brief-heading">
         <div className="mx-auto flex w-full max-w-site flex-col gap-8 px-5 py-12 md:px-10 md:py-14 lg:flex-row lg:items-start lg:gap-24 lg:px-14 lg:py-20">
           <div className="flex flex-col gap-6 lg:w-80 lg:flex-none">
             <p className="text-[12px]/[15px]">01 / THE BRIEF</p>
@@ -48,17 +48,17 @@ export function CaseStudy({ project }: { project: SelectedProject & { caseStudy:
         </div>
       </section>
 
-      <section className="bg-[#0e0e0e] text-[#f7f7f2]" aria-labelledby="direction-heading">
+      <section data-gsap="case-study-section" className="bg-[#0e0e0e] text-[#f7f7f2]" aria-labelledby="direction-heading">
         <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 py-12 md:px-10 md:py-14 lg:gap-10 lg:px-14 lg:py-[72px]">
           <p className="text-[12px]/[15px] text-[#e8f22b]">02 / THE DESIGN DIRECTION</p>
           <h2 id="direction-heading" className="text-[36px]/[41px] font-extrabold lg:text-[64px]/[80px]">One idea.<br />A complete system.</h2>
           <p className="text-[18px]/[27px] lg:text-[20px]/[25px]">{study.designDirection}</p>
           <div className="flex flex-col gap-6 text-[#0e0e0e] md:flex-row">
-            <div className="flex min-w-0 flex-1 flex-col gap-6 bg-[#e8f22b] px-6 py-8 md:px-8 md:py-10 lg:px-10 lg:py-12">
+            <div data-gsap="case-study-card" className="flex min-w-0 flex-1 flex-col gap-6 bg-[#e8f22b] px-6 py-8 md:px-8 md:py-10 lg:px-10 lg:py-12">
               <p className="text-[12px]/[15px]">IDENTITY STUDY / PLACEHOLDER</p>
               <p className="text-[64px]/[83px] font-extrabold lg:text-[104px]/[130px]">Aa<br />01—09</p>
             </div>
-            <div className="flex min-w-0 flex-1 flex-col gap-6 bg-[#c4b0f0] px-6 py-8 md:px-8 md:py-10 lg:px-10 lg:py-12">
+            <div data-gsap="case-study-card" className="flex min-w-0 flex-1 flex-col gap-6 bg-[#c4b0f0] px-6 py-8 md:px-8 md:py-10 lg:px-10 lg:py-12">
               <p className="text-[12px]/[15px]">APPLICATION STUDY / PLACEHOLDER</p>
               <p className="text-[36px]/[41px] font-extrabold lg:text-[64px]/[80px]">FORM.<br />FUNCTION.</p>
             </div>
@@ -66,7 +66,7 @@ export function CaseStudy({ project }: { project: SelectedProject & { caseStudy:
         </div>
       </section>
 
-      <section className="bg-[#f7f7f2] text-[#0e0e0e]" aria-labelledby="experience-heading">
+      <section data-gsap="case-study-section" className="bg-[#f7f7f2] text-[#0e0e0e]" aria-labelledby="experience-heading">
         <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 py-12 md:px-10 md:py-14 lg:gap-8 lg:px-14 lg:py-[72px]">
           <p className="text-[12px]/[15px]">03 / IN USE</p>
           <h2 id="experience-heading" className="text-[36px]/[43px] font-extrabold lg:text-[56px]/[70px]">Built for the<br />people using it.</h2>
@@ -83,7 +83,7 @@ export function CaseStudy({ project }: { project: SelectedProject & { caseStudy:
         </div>
       </section>
 
-      <section className="bg-[#f7f7f2] text-[#0e0e0e]" aria-labelledby="outcome-heading">
+      <section data-gsap="case-study-section" className="bg-[#f7f7f2] text-[#0e0e0e]" aria-labelledby="outcome-heading">
         <div className="mx-auto flex w-full max-w-site flex-col gap-7 px-5 py-12 md:px-10 md:py-14 lg:flex-row lg:items-start lg:gap-24 lg:px-14 lg:py-20">
           <div className="flex flex-col gap-6 lg:w-[400px] lg:flex-none">
             <p className="text-[12px]/[15px]">04 / THE OUTCOME</p>

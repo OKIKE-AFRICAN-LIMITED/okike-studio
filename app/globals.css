@@ -154,6 +154,53 @@
   display: none;
 }
 
+/* Initial-view elements animated by MotionProvider. The 'motion' class is set
+   before first paint and only when reduced motion is not requested, so these
+   stay visible without JS. The failsafe reveals them if animation never starts. */
+html.motion :is(
+  [data-gsap="hero-eyebrow"],
+  [data-gsap="hero-copy"] > *,
+  [data-gsap="hero-artwork"],
+  [data-gsap="hero-rail"],
+  [data-gsap="studio-heading"],
+  [data-gsap="services-heading"],
+  [data-gsap="work-page-heading"],
+  [data-gsap="work-page-eyebrow"],
+  [data-gsap="work-page-subheading"],
+  [data-gsap="case-study-header"]
+) {
+  visibility: hidden;
+  animation: motion-failsafe 0s 3s forwards;
+}
+
+@keyframes motion-failsafe {
+  to {
+    visibility: visible;
+  }
+}
+
+/* Lenis smooth scroll (https://github.com/darkroomengineering/lenis) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 /* Use inside a full-width section so its background still reaches the edges. */
 @utility site-container {
   width: 100%;
