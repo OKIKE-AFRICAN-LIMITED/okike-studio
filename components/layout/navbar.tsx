@@ -33,7 +33,7 @@ function NavigationLinks({ mobile = false }: { mobile?: boolean }) {
 
 function ProjectLink() {
   return (
-    <Button href={site.enquiryHref} className="h-14 w-full shrink-0 justify-between gap-6 px-4 text-[15px] font-semibold leading-normal hover:bg-action hover:text-primary hover:[&_span]:underline hover:[&_span]:underline-offset-4 lg:w-[204px]">
+    <Button href={site.enquiryHref} className="h-14 w-full shrink-0 justify-between gap-6 px-4 text-[15px] font-semibold leading-normal hover:bg-action hover:text-primary hover:[&_span]:underline hover:[&_span]:underline-offset-4 lg:w-[204px] hover:[&_img]:invert">
       <span>Start a project</span>
       <Image src="/navigation/arrow.svg" alt="" width={20} height={20} />
     </Button>

@@ -20,7 +20,7 @@ export function Hero() {
             We turn ambitious ideas into distinct brands, useful digital products and ventures built to grow.
           </p>
           <div className="flex w-full flex-col gap-[10px] md:w-auto md:flex-row">
-            <Button href={site.enquiryHref} className="min-h-[52px] w-full gap-2 rounded-t-[5px] hover:bg-action hover:text-primary hover:underline hover:underline-offset-4 md:w-auto md:rounded-[5px_0_0_5px]">
+            <Button href={site.enquiryHref} className="min-h-[52px] w-full gap-2 rounded-t-[5px] hover:bg-action hover:text-primary hover:underline hover:underline-offset-4 md:w-auto md:rounded-[5px_0_0_5px] hover:[&_img]:invert">
               Start a project
               <Image src="/hero/arrow.svg" alt="" width={18} height={18} />
             </Button>

@@ -16,7 +16,7 @@ export function ClosingCta() {
         </h2>
         <div data-gsap="cta-action" className="mt-8 flex flex-col gap-6 border-t border-[rgb(26_26_8_/_25%)] pt-7 lg:mt-10 lg:flex-row lg:items-center lg:justify-between">
           <p className="max-w-[42.5rem] text-[17px]/[25px] lg:text-[20px]/[28px]">Tell us what you&apos;re building, where you are now, and what you need help with.</p>
-          <Button href={site.enquiryHref} variant="secondary" className="w-full justify-between px-6 lg:w-84 lg:flex-none [&_img]:invert hover:[&_img]:invert-0">
+          <Button href={site.enquiryHref} variant="secondary" className="w-full justify-between px-6 lg:w-84 lg:flex-none [&_img]:invert">
             <span>Tell us about your project</span>
             <Image src="/hero/arrow.svg" alt="" width={18} height={18} />
           </Button>
