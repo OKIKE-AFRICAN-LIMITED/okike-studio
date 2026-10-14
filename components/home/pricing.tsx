@@ -8,7 +8,7 @@ function PricingCard({ package: pricingPackage }: { package: PricingPackage }) {
       <p className="text-[12px] font-medium leading-normal">{pricingPackage.index} / {pricingPackage.stage}</p>
       <h3 className="text-[28px] font-extrabold leading-normal">{pricingPackage.name}</h3>
       <p className="text-[36px] font-extrabold leading-normal lg:text-[42px]">{pricingPackage.price}</p>
-      <p className="min-h-[75px] text-[17px]/[25px]">{pricingPackage.description}</p>
+      <p className="min-h-18.75 text-[17px]/[25px]">{pricingPackage.description}</p>
       <p className="text-[16px] font-medium leading-normal">{pricingPackage.scope}</p>
       <Button href={pricingPackage.href} variant="secondary" className="mt-auto w-full focus-visible:outline-[3px] focus-visible:outline-[#0e0e0e] focus-visible:outline-offset-4">
         {pricingPackage.buttonLabel}

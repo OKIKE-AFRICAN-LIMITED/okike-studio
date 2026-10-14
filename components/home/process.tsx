@@ -59,7 +59,7 @@ export function Process() {
 
       <ol data-gsap="process-stages" className="m-0 flex min-w-0 list-none flex-col p-0">
         {stages.map((stage) => (
-          <li key={stage.number} data-gsap="process-stage" className="flex min-w-0 flex-col gap-[14px] border-t border-[#4d4d47] py-6 pb-7">
+          <li key={stage.number} data-gsap="process-stage" className="flex min-w-0 flex-col gap-3.5 border-t border-[#4d4d47] py-6 pb-7">
             <h3 className="grid grid-cols-[26px_minmax(0,1fr)] items-baseline text-[28px]/[34px] font-extrabold lg:grid-cols-[28px_minmax(0,1fr)] lg:text-[34px]/[40px]">
               <span className="text-[12px]/[34px] font-medium text-lime lg:text-[13px]/[40px]">{stage.number}</span>
               <span>{stage.title}</span>

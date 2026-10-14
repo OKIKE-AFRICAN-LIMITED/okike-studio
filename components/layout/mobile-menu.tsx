@@ -38,7 +38,7 @@ export function MobileMenu({ logo, children }: { logo: ReactNode; children: Reac
       <button
         ref={triggerRef}
         type="button"
-        className="flex h-12 w-[104px] items-center justify-between bg-action px-3 text-[14px] font-semibold text-primary"
+        className="flex h-12 w-[104px] items-center justify-between bg-action px-3 text-[14px] font-semibold text-ink"
         aria-expanded={open}
         aria-controls="mobile-navigation"
         aria-haspopup="dialog"
@@ -54,7 +54,7 @@ export function MobileMenu({ logo, children }: { logo: ReactNode; children: Reac
         ref={dialogRef}
         id="mobile-navigation"
         aria-label="Site menu"
-        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto overscroll-contain border-0 bg-action p-0 text-primary backdrop:bg-action"
+        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto overscroll-contain border-0 bg-action p-0 text-ink backdrop:bg-action"
         onCancel={(event) => {
           event.preventDefault();
           closeMenu();
@@ -81,7 +81,7 @@ export function MobileMenu({ logo, children }: { logo: ReactNode; children: Reac
       >
         <div className="flex h-[84px] items-center justify-between border-b border-[#d9d9d4] px-5 [&_img]:h-auto">
           {logo}
-          <button ref={closeRef} type="button" onClick={closeMenu} className="flex h-12 w-[104px] items-center justify-between bg-surface px-[14px] text-[14px] font-semibold text-primary">
+          <button ref={closeRef} type="button" onClick={closeMenu} className="flex h-12 w-[104px] items-center justify-between bg-surface px-[14px] text-[14px] font-semibold text-ink">
             Close <Image src="/navigation/close.svg" alt="" width={18} height={18} />
           </button>
         </div>

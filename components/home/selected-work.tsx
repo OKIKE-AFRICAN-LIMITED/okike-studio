@@ -9,7 +9,7 @@ export function SelectedWork() {
     <SectionContainer
       id="selected-work"
       labelledBy="selected-work-heading"
-      className="bg-surface text-primary [font-optical-sizing:auto] [font-variation-settings:'wdth'_100]"
+      className="bg-surface text-ink [font-optical-sizing:auto] [font-variation-settings:'wdth'_100]"
       contentClassName="flex flex-col gap-9 lg:gap-12 lg:[--page-gutter:56px] lg:[--section-space:72px]"
     >
       <header data-gsap="work-heading" className="flex min-w-0 flex-col gap-6">
@@ -19,7 +19,7 @@ export function SelectedWork() {
 
       <ProjectCard project={featuredProject} />
 
-      <div className="grid gap-9 lg:grid-cols-2 lg:gap-8 [&_[data-project-image]]:lg:aspect-[648/440]">
+      <div className="grid gap-9 lg:grid-cols-2 lg:gap-8 **:data-project-image:lg:aspect-648/440">
         {pairedProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
