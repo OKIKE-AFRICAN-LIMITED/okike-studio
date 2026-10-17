@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
 import { ClosingCta } from "@/components/home/closing-cta";
 import { WorkProjectCard } from "@/components/work/work-project-card";
-import { selectedProjects } from "@/lib/projects";
+import { getStudioProjects } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Work | OKIKE Studio",
 };
 
-const [featuredProject, ...pairedProjects] = selectedProjects;
+export default async function WorkPage() {
+  const projects = await getStudioProjects();
+  const [featuredProject, ...pairedProjects] = projects;
 
-export default function WorkPage() {
+  // Chunk paired projects into pairs of 2
+  const pairedChunks: (typeof pairedProjects)[] = [];
+  for (let i = 0; i < pairedProjects.length; i += 2) {
+    pairedChunks.push(pairedProjects.slice(i, i + 2));
+  }
+
+  const maxSeq = String(projects.length).padStart(2, "0");
+
   return (
     <>
       <section className="bg-[#0e0e0e] text-[#f5f5f0]" aria-labelledby="work-heading">
@@ -26,16 +35,38 @@ export default function WorkPage() {
       <section className="bg-white text-black" aria-label="Selected project gallery">
         <div className="mx-auto flex w-full max-w-site flex-col gap-9 px-5 py-12 md:px-10 md:py-14 lg:gap-16 lg:px-14 lg:pt-14 lg:pb-20">
           <div data-gsap="work-index-bar" className="hidden items-start justify-between border-b border-[#ccccc7] pb-6 text-[12px] font-medium leading-normal lg:flex">
-            <p>PROJECT INDEX / 01–03</p>
+            <p>PROJECT INDEX / 01–{maxSeq}</p>
             <p>BRAND / DIGITAL / PRODUCT</p>
           </div>
 
-          <WorkProjectCard project={featuredProject} displayTitle="Project 01" variant="featured" />
+          {featuredProject && (
+            <WorkProjectCard
+              project={featuredProject}
+              displayTitle={`Project ${featuredProject.sequence}`}
+              variant="featured"
+            />
+          )}
 
-          <div className="flex flex-col gap-9 md:flex-row md:items-start md:gap-6 lg:gap-10">
-            <WorkProjectCard project={pairedProjects[0]} displayTitle="Project 02" variant="paired" position="first" />
-            <WorkProjectCard project={pairedProjects[1]} displayTitle="Project 03" variant="paired" position="second" />
-          </div>
+          {pairedChunks.map((chunk, idx) => (
+            <div key={idx} className="flex flex-col gap-9 md:flex-row md:items-start md:gap-6 lg:gap-10">
+              {chunk[0] && (
+                <WorkProjectCard
+                  project={chunk[0]}
+                  displayTitle={`Project ${chunk[0].sequence}`}
+                  variant="paired"
+                  position="first"
+                />
+              )}
+              {chunk[1] && (
+                <WorkProjectCard
+                  project={chunk[1]}
+                  displayTitle={`Project ${chunk[1].sequence}`}
+                  variant="paired"
+                  position="second"
+                />
+              )}
+            </div>
+          ))}
         </div>
       </section>
 

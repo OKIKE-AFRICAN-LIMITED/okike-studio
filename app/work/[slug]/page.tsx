@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CaseStudy } from "@/components/work/case-study";
-import { selectedProjects, type CaseStudy as CaseStudyData, type SelectedProject } from "@/lib/projects";
+import {
+  selectedProjects,
+  type CaseStudy as CaseStudyData,
+  type SelectedProject,
+} from "@/lib/projects";
+import { getStudioProjectBySlug, getStudioProjects } from "@/lib/cms";
+
+export const dynamicParams = true;
 
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }>;
@@ -13,21 +20,30 @@ const caseStudyProjects = projects.filter(
   (project): project is ProjectWithCaseStudy => project.caseStudy !== undefined,
 );
 
-export function generateStaticParams() {
-  return caseStudyProjects.map((project) => ({ slug: project.caseStudy.slug }));
+export async function generateStaticParams() {
+  const dynamicList = await getStudioProjects();
+  return dynamicList
+    .filter((project): project is ProjectWithCaseStudy => Boolean(project.caseStudy?.slug))
+    .map((project) => ({ slug: project.caseStudy.slug }));
 }
 
 export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = caseStudyProjects.find((item) => item.caseStudy.slug === slug);
-  if (!project) return {};
+  const project =
+    (await getStudioProjectBySlug(slug)) ||
+    caseStudyProjects.find((item) => item.caseStudy.slug === slug);
+  if (!project || !project.caseStudy) return {};
   return { title: project.caseStudy.metadataTitle };
 }
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
-  const project = caseStudyProjects.find((item) => item.caseStudy.slug === slug);
-  if (!project) notFound();
+  let project = await getStudioProjectBySlug(slug);
+  if (!project || !project.caseStudy) {
+    project = caseStudyProjects.find((item) => item.caseStudy.slug === slug) ?? null;
+  }
+  if (!project || !project.caseStudy) notFound();
 
-  return <CaseStudy project={project} />;
+  return <CaseStudy project={project as ProjectWithCaseStudy} />;
 }
+

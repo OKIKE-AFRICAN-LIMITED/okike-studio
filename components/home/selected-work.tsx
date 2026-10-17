@@ -1,9 +1,10 @@
-import { selectedProjects } from "@/lib/projects";
+import { selectedProjects, type SelectedProject } from "@/lib/projects";
 import { SectionContainer } from "@/components/ui/section-container";
 import { ProjectCard } from "./project-card";
 
-export function SelectedWork() {
-  const [featuredProject, ...pairedProjects] = selectedProjects;
+export function SelectedWork({ projects }: { projects?: SelectedProject[] }) {
+  const list = projects && projects.length > 0 ? projects : selectedProjects;
+  const [featuredProject, ...pairedProjects] = list;
 
   return (
     <SectionContainer

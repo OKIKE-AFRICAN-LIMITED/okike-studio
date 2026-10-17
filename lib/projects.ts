@@ -1,5 +1,5 @@
 export type SelectedProject = {
-  id: "koro" | "north-common" | "tend";
+  id: string;
   sequence: string;
   year: string;
   title: string;

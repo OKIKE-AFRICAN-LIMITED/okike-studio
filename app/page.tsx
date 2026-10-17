@@ -7,19 +7,25 @@ import { Principles } from "@/components/home/principles";
 import { WhoWeWorkWith } from "@/components/home/who-we-work-with";
 import { Pricing } from "@/components/home/pricing";
 import { ClosingCta } from "@/components/home/closing-cta";
+import { getHomePageContent, getStudioProjects } from "@/lib/cms";
 
-export default function Home() {
+export default async function Home() {
+  const [homeContent, projects] = await Promise.all([
+    getHomePageContent(),
+    getStudioProjects(),
+  ]);
+
   return (
     <>
-      <Hero />
-      <SystemsFirst />
+      <Hero content={homeContent.hero} />
+      <SystemsFirst content={homeContent.systemsFirst} />
       <Capabilities />
-      <SelectedWork />
+      <SelectedWork projects={projects} />
       <Process />
       <Principles />
       <WhoWeWorkWith />
       <Pricing />
-      <ClosingCta />
+      <ClosingCta content={homeContent.closingCta} />
     </>
   );
 }
