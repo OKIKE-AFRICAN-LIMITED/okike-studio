@@ -10,8 +10,8 @@ export const metadata = {
 };
 
 export default async function PortalLayout({ children }: { children: ReactNode }) {
-  let userEmail = "client@aether.io";
-  let companyName = "Aether Dynamics";
+  let userEmail = "";
+  let companyName = "Client Workspace";
   let isAdmin = false;
 
   try {

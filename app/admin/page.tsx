@@ -14,9 +14,9 @@ import {
 } from "lucide-react";
 
 export default async function AdminDashboardPage() {
-  let enquiriesCount: number = 3;
-  let activeProjectsCount: number = 2;
-  let caseStudiesCount: number = selectedProjects.length;
+  let enquiriesCount: number = 0;
+  let activeProjectsCount: number = 0;
+  let caseStudiesCount: number = 0;
 
   let enquiries: Array<{
     id: string;
@@ -27,38 +27,13 @@ export default async function AdminDashboardPage() {
     budget_range: string | null;
     status: string;
     created_at: string;
-  }> = [
-    {
-      id: "demo-1",
-      client_name: "Alexander Wright",
-      client_company: "Aether Dynamics",
-      client_email: "alexander@aether.io",
-      services: ["Brand identity", "Website"],
-      budget_range: "$15k - $30k",
-      status: "new",
-      created_at: "Today, 10:45 AM",
-    },
-    {
-      id: "demo-2",
-      client_name: "Elena Rostova",
-      client_company: "Vanguard Studio",
-      client_email: "elena@vanguard.design",
-      services: ["Custom software"],
-      budget_range: "$30k - $60k",
-      status: "reviewed",
-      created_at: "Yesterday",
-    },
-    {
-      id: "demo-3",
-      client_name: "Marcus Cole",
-      client_company: "Helix Health",
-      client_email: "marcus@helix.health",
-      services: ["Brand identity", "Website", "Custom software"],
-      budget_range: "$60k+",
-      status: "proposal_sent",
-      created_at: "3 days ago",
-    },
-  ];
+  }> = [];
+
+  let clientProjects: Array<{
+    id: string;
+    title: string;
+    phase: string;
+  }> = [];
 
   try {
     const supabase = await createClient();
@@ -66,7 +41,7 @@ export default async function AdminDashboardPage() {
     const { count: realEnquiriesCount } = await supabase
       .from("enquiries")
       .select("*", { count: "exact", head: true });
-    if (typeof realEnquiriesCount === "number" && realEnquiriesCount > 0) {
+    if (typeof realEnquiriesCount === "number") {
       enquiriesCount = realEnquiriesCount;
     }
 
@@ -82,6 +57,8 @@ export default async function AdminDashboardPage() {
       .select("*", { count: "exact", head: true });
     if (typeof realCmsCount === "number") {
       caseStudiesCount = realCmsCount;
+    } else {
+      caseStudiesCount = selectedProjects.length;
     }
 
     const { data: latestEnquiries } = await supabase
@@ -105,8 +82,22 @@ export default async function AdminDashboardPage() {
         }),
       }));
     }
+
+    const { data: latestProjects } = await supabase
+      .from("client_projects")
+      .select("id, name, current_phase")
+      .order("created_at", { ascending: false })
+      .limit(3);
+
+    if (latestProjects && latestProjects.length > 0) {
+      clientProjects = latestProjects.map((p) => ({
+        id: p.id,
+        title: p.name || "Client Project",
+        phase: p.current_phase || "Active Engagement",
+      }));
+    }
   } catch {
-    // Development fallback
+    // Keep empty clean slate
   }
 
   const statusStyles: Record<string, string> = {
@@ -196,9 +187,11 @@ export default async function AdminDashboardPage() {
           </div>
           <div className="mt-4">
             <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-ink">
-              High
+              {enquiriesCount > 0 ? "Active" : "Ready"}
             </div>
-            <p className="text-xs text-muted mt-1 font-medium">Discovery calls in progress</p>
+            <p className="text-xs text-muted mt-1 font-medium">
+              {enquiriesCount > 0 ? `${enquiriesCount} in pipeline` : "Awaiting inbound inquiries"}
+            </p>
           </div>
         </div>
       </div>
@@ -223,64 +216,80 @@ export default async function AdminDashboardPage() {
             </Link>
           </div>
 
-          <div className="divide-y divide-ink/10 border border-ink/15 bg-surface shadow-xs">
-            {enquiries.map((enquiry) => (
-              <div
-                key={enquiry.id}
-                className="p-5 hover:bg-paper/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              >
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-ink text-sm">
-                      {enquiry.client_name}
-                    </span>
-                    {enquiry.client_company && (
-                      <span className="text-xs text-muted font-medium">
-                        / {enquiry.client_company}
-                      </span>
-                    )}
-                    <span
-                      className={`text-[9px] uppercase px-2 py-0.5 tracking-wider font-extrabold ${
-                        statusStyles[enquiry.status] || "bg-paper text-ink border border-ink/10"
-                      }`}
-                    >
-                      {enquiry.status.replace("_", " ")}
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-muted font-medium">
-                    {enquiry.client_email} · Budget:{" "}
-                    <span className="text-ink font-bold">
-                      {enquiry.budget_range || "Flexible"}
-                    </span>
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {enquiry.services.map((svc) => (
-                      <span
-                        key={svc}
-                        className="bg-paper px-2 py-0.5 text-[10px] uppercase text-muted border border-ink/10 font-bold"
-                      >
-                        {svc}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex sm:flex-col items-end justify-between sm:justify-center gap-2 shrink-0">
-                  <span className="text-[11px] text-muted font-medium">
-                    {enquiry.created_at}
-                  </span>
-                  <Link
-                    href={`/admin/enquiries?id=${enquiry.id}`}
-                    className="inline-flex items-center gap-1 text-xs font-extrabold uppercase tracking-wider text-ink hover:text-lime-700 transition-colors"
-                  >
-                    Review Scope <ArrowRight className="h-3 w-3" />
-                  </Link>
-                </div>
+          {enquiries.length === 0 ? (
+            <div className="border border-ink/15 bg-surface p-10 text-center space-y-3 shadow-xs">
+              <div className="mx-auto w-10 h-10 border border-ink/10 flex items-center justify-center bg-paper text-muted">
+                <Inbox className="h-5 w-5" />
               </div>
-            ))}
-          </div>
+              <div className="space-y-1">
+                <p className="text-xs font-extrabold uppercase tracking-wider text-ink">
+                  No Inquiries Yet
+                </p>
+                <p className="text-xs text-muted max-w-sm mx-auto">
+                  Your pipeline is currently a clean slate. When prospective clients submit inquiries through the contact form, they will appear here.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="divide-y divide-ink/10 border border-ink/15 bg-surface shadow-xs">
+              {enquiries.map((enquiry) => (
+                <div
+                  key={enquiry.id}
+                  className="p-5 hover:bg-paper/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-ink text-sm">
+                        {enquiry.client_name}
+                      </span>
+                      {enquiry.client_company && (
+                        <span className="text-xs text-muted font-medium">
+                          / {enquiry.client_company}
+                        </span>
+                      )}
+                      <span
+                        className={`text-[9px] uppercase px-2 py-0.5 tracking-wider font-extrabold ${
+                          statusStyles[enquiry.status] || "bg-paper text-ink border border-ink/10"
+                        }`}
+                      >
+                        {enquiry.status.replace("_", " ")}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-muted font-medium">
+                      {enquiry.client_email} · Budget:{" "}
+                      <span className="text-ink font-bold">
+                        {enquiry.budget_range || "Flexible"}
+                      </span>
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {enquiry.services.map((svc) => (
+                        <span
+                          key={svc}
+                          className="bg-paper px-2 py-0.5 text-[10px] uppercase text-muted border border-ink/10 font-bold"
+                        >
+                          {svc}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex sm:flex-col items-end justify-between sm:justify-center gap-2 shrink-0">
+                    <span className="text-[11px] text-muted font-medium">
+                      {enquiry.created_at}
+                    </span>
+                    <Link
+                      href={`/admin/enquiries?id=${enquiry.id}`}
+                      className="inline-flex items-center gap-1 text-xs font-extrabold uppercase tracking-wider text-ink hover:text-lime-700 transition-colors"
+                    >
+                      Review Scope <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right Column: Active Client Spaces & Quick Actions */}
@@ -298,73 +307,33 @@ export default async function AdminDashboardPage() {
               </Link>
             </div>
 
-            <div className="space-y-4">
-              <div className="border border-ink/10 p-4 space-y-3 bg-paper/40">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-extrabold text-xs uppercase text-ink">
-                      Aether Dynamics
-                    </h3>
-                    <p className="text-[11px] text-muted font-medium">
-                      Brand System &amp; Next.js Experience
-                    </p>
-                  </div>
-                  <span className="text-[9px] bg-lime text-ink px-2 py-0.5 font-extrabold uppercase tracking-wider border border-lime">
-                    Phase 2 / 4
-                  </span>
-                </div>
-
-                <div className="w-full bg-ink/10 h-1.5 overflow-hidden">
-                  <div className="bg-ink h-full w-1/2" />
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] text-muted font-medium">
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" /> Due Oct 28
-                  </span>
-                  <Link
-                    href="/portal"
-                    target="_blank"
-                    className="text-ink hover:underline flex items-center gap-1 font-bold"
-                  >
-                    View Portal <ExternalLink className="h-2.5 w-2.5" />
-                  </Link>
-                </div>
+            {clientProjects.length === 0 ? (
+              <div className="border border-ink/10 p-6 text-center space-y-2 bg-paper/40">
+                <p className="text-xs font-bold uppercase tracking-wider text-ink">
+                  No Active Projects
+                </p>
+                <p className="text-[11px] text-muted">
+                  Client spaces will appear here once an inquiry is converted into an active engagement.
+                </p>
               </div>
-
-              <div className="border border-ink/10 p-4 space-y-3 bg-paper/40">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-extrabold text-xs uppercase text-ink">
-                      Vanguard Studio
-                    </h3>
-                    <p className="text-[11px] text-muted font-medium">
-                      Custom Application Architecture
-                    </p>
+            ) : (
+              <div className="space-y-4">
+                {clientProjects.map((p) => (
+                  <div key={p.id} className="border border-ink/10 p-4 space-y-3 bg-paper/40">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-extrabold text-xs uppercase text-ink">
+                          {p.title}
+                        </h3>
+                        <p className="text-[11px] text-muted font-medium">
+                          {p.phase}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-[9px] bg-paper text-muted border border-ink/15 px-2 py-0.5 font-bold uppercase tracking-wider">
-                    Phase 1 / 4
-                  </span>
-                </div>
-
-                <div className="w-full bg-ink/10 h-1.5 overflow-hidden">
-                  <div className="bg-ink h-full w-1/4" />
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] text-muted font-medium">
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" /> Due Nov 12
-                  </span>
-                  <Link
-                    href="/portal"
-                    target="_blank"
-                    className="text-ink hover:underline flex items-center gap-1 font-bold"
-                  >
-                    View Portal <ExternalLink className="h-2.5 w-2.5" />
-                  </Link>
-                </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
 
           {/* Quick CMS Action Card */}

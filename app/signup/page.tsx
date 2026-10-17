@@ -137,7 +137,7 @@ export default function SignUpPage() {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                placeholder="Alexander Wright"
+                placeholder="e.g. Jane Doe"
                 className="w-full bg-[#090909] border border-[#2e2e2e] px-4 py-2.5 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
               />
             </div>
@@ -155,7 +155,7 @@ export default function SignUpPage() {
                 required
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="Aether Dynamics"
+                placeholder="e.g. Studio Acme"
                 className="w-full bg-[#090909] border border-[#2e2e2e] px-4 py-2.5 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
               />
             </div>

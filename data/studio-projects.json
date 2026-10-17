@@ -1,0 +1,65 @@
+[
+  {
+    "id": "datadom",
+    "sequence": "01",
+    "year": "2026",
+    "title": "datadom",
+    "disciplines": "VENTURE STRATEGY / BRAND / PRODUCT",
+    "image": "/work/2-variant-2-1-jpg-1792276248462.jpeg",
+    "imageAlt": "2. VARIANT 2 (1).jpg",
+    "href": "https://datadom.vercel.app/",
+    "featured": true,
+    "placeholder": true,
+    "caseStudy": {
+      "slug": "datadom",
+      "caseNumber": "01",
+      "displayTitle": "PROJECT 01",
+      "metadataTitle": "datadom | OKIKE Studio",
+      "introduction": [
+        "Brand identity and digital experience.",
+        "A project story, from the first question to the final system."
+      ],
+      "previewNotice": "VERIFIED CASE STUDY · OKIKE Studio",
+      "coverAlt": "2. VARIANT 2 (1).jpg",
+      "facts": {
+        "client": "OBED PHILIP",
+        "sector": "DATA ANALYSIS",
+        "scope": "Strategy, identity, website",
+        "year": "2026"
+      },
+      "question": [
+        "[Introduce the business and the people it serves. Explain what needed to change, why it mattered, and the constraints shaping the project.]",
+        "[State the agreed goal in one clear sentence. Keep the focus on the client’s problem.]"
+      ],
+      "designDirection": "[Explain the central design decision and how it connects the identity, content and digital experience.]",
+      "experience": "[Describe the key user journey and show how the design supports it. Replace the preview below with final project screens.]",
+      "outcome": [
+        "[Summarise what was delivered and what changed for the client or their customers.]",
+        "[Add verified results with a source and time period, or describe observable improvements when metrics are unavailable.]"
+      ],
+      "placeholder": true
+    }
+  },
+  {
+    "id": "north-common",
+    "sequence": "02",
+    "year": "2025",
+    "title": "NORTH COMMON",
+    "disciplines": "POSITIONING / IDENTITY / DIGITAL",
+    "image": "/work/north-common.png",
+    "imageAlt": "A collaborative team working in a bright open studio",
+    "featured": false,
+    "placeholder": true
+  },
+  {
+    "id": "tend",
+    "sequence": "03",
+    "year": "2025",
+    "title": "TEND",
+    "disciplines": "PRODUCT / EXPERIENCE / LAUNCH",
+    "image": "/work/tend.png",
+    "imageAlt": "Product interface plans pinned beneath a clear acrylic sheet",
+    "featured": false,
+    "placeholder": true
+  }
+]

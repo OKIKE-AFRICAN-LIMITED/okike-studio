@@ -167,58 +167,76 @@ export function EnquiriesManager({
             <span>Sort: Most Recent</span>
           </div>
 
-          <div className="divide-y divide-ink/10 border border-ink/15 bg-surface shadow-xs">
-            {filtered.map((item) => {
-              const isSelected = selectedEnquiry?.id === item.id;
-              return (
-                <div
-                  key={item.id}
-                  onClick={() => handleSelect(item)}
-                  className={`p-4 cursor-pointer transition-colors ${
-                    isSelected
-                      ? "bg-paper border-l-4 border-ink"
-                      : "hover:bg-paper/40"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h3 className="font-extrabold text-xs uppercase text-ink">
-                        {item.client_name}
-                      </h3>
-                      {item.client_company && (
-                        <p className="text-[11px] text-muted font-medium">
-                          {item.client_company}
-                        </p>
-                      )}
-                    </div>
-                    <span
-                      className={`text-[9px] uppercase px-2 py-0.5 tracking-wider font-extrabold ${
-                        statusPills[item.status] || "bg-paper text-ink"
-                      }`}
-                    >
-                      {item.status.replace("_", " ")}
-                    </span>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-between text-[11px] text-muted font-medium">
-                    <span>Budget: {item.budget_range || "Flexible"}</span>
-                    <span>{item.created_at}</span>
-                  </div>
-
-                  <div className="mt-2 flex flex-wrap gap-1">
-                    {item.services.map((svc) => (
+          {filtered.length === 0 ? (
+            <div className="border border-ink/15 bg-surface p-10 text-center space-y-3 shadow-xs">
+              <div className="mx-auto w-10 h-10 border border-ink/10 flex items-center justify-center bg-paper text-muted">
+                <Inbox className="h-5 w-5" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs font-extrabold uppercase tracking-wider text-ink">
+                  No Inquiries Found
+                </p>
+                <p className="text-xs text-muted max-w-xs mx-auto">
+                  {activeFilter === "all"
+                    ? "Your inbound pipeline is clean. When prospective clients submit inquiries, they will appear here in real time."
+                    : `No inquiries with status '${activeFilter}'.`}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="divide-y divide-ink/10 border border-ink/15 bg-surface shadow-xs">
+              {filtered.map((item) => {
+                const isSelected = selectedEnquiry?.id === item.id;
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => handleSelect(item)}
+                    className={`p-4 cursor-pointer transition-colors ${
+                      isSelected
+                        ? "bg-paper border-l-4 border-ink"
+                        : "hover:bg-paper/40"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h3 className="font-extrabold text-xs uppercase text-ink">
+                          {item.client_name}
+                        </h3>
+                        {item.client_company && (
+                          <p className="text-[11px] text-muted font-medium">
+                            {item.client_company}
+                          </p>
+                        )}
+                      </div>
                       <span
-                        key={svc}
-                        className="bg-paper border border-ink/10 text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 text-muted"
+                        className={`text-[9px] uppercase px-2 py-0.5 tracking-wider font-extrabold ${
+                          statusPills[item.status] || "bg-paper text-ink"
+                        }`}
                       >
-                        {svc}
+                        {item.status.replace("_", " ")}
                       </span>
-                    ))}
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between text-[11px] text-muted font-medium">
+                      <span>Budget: {item.budget_range || "Flexible"}</span>
+                      <span>{item.created_at}</span>
+                    </div>
+
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {item.services.map((svc) => (
+                        <span
+                          key={svc}
+                          className="bg-paper border border-ink/10 text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 text-muted"
+                        >
+                          {svc}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Right Detail Pane */}
@@ -369,8 +387,14 @@ export function EnquiriesManager({
               </div>
             </div>
           ) : (
-            <div className="border border-ink/15 bg-surface p-12 text-center text-muted text-xs font-medium">
-              Select an inquiry from the left to inspect brief details.
+            <div className="border border-ink/15 bg-surface p-12 text-center space-y-2 text-muted text-xs font-medium shadow-xs">
+              <Inbox className="h-8 w-8 mx-auto text-ink/20" />
+              <p className="font-extrabold text-ink uppercase tracking-wider text-xs">
+                Awaiting Inbound Briefs
+              </p>
+              <p className="text-[11px] max-w-xs mx-auto">
+                Once prospective clients submit an inquiry via your public website, their project requirements, budget, and scope answers will display here.
+              </p>
             </div>
           )}
         </div>

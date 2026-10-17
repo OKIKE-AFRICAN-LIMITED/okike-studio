@@ -44,7 +44,7 @@ const navItems = [
     href: "/admin/enquiries",
     label: "Inquiries CRM",
     icon: Inbox,
-    badge: "3 New",
+    badge: null,
   },
   {
     href: "/admin/clients",

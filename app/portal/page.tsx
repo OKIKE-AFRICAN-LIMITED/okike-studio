@@ -13,8 +13,8 @@ import {
 } from "lucide-react";
 
 export default async function ClientPortalPage() {
-  let clientCompany = "Aether Dynamics";
-  let clientName = "Alexander Wright";
+  let clientCompany = "Client Workspace";
+  let clientName = "Client Partner";
 
   try {
     const supabase = await createClient();
@@ -23,6 +23,10 @@ export default async function ClientPortalPage() {
     } = await supabase.auth.getUser();
 
     if (user) {
+      if (user.email) {
+        clientName = user.email.split("@")[0];
+      }
+
       const { data: profile } = await supabase
         .from("profiles")
         .select("full_name, company_name")
