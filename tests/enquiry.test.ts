@@ -18,7 +18,7 @@ const validPayload = buildPayload(["website"], false, "starter", answers, submis
 test("server validation trusts package records rather than submitted names or prices",()=>{
   const result=validateEnquiry({...validPayload,packageName:"Free",packagePrice:"₦0"},submission.startedAt+3000);
   assert.equal(result.success,true);
-  if(result.success){assert.equal(result.data.package?.name,"Starter Site");assert.equal(result.data.package?.price,"From ₦150,000")}
+  if(result.success){assert.equal(result.data.package?.name,"Starter Site");assert.equal(result.data.package?.price,"From ₦250,000")}
 });
 
 test("server validation rejects invalid fields, oversized content and package mismatches",()=>{
@@ -41,7 +41,7 @@ test("server validation allows fast package-prefilled submissions for autofill u
 test("email rendering escapes visitor content and includes trusted package data",()=>{
   const result=validateEnquiry({...validPayload,contact:{...validPayload.contact,name:"<Ada & Co>\r\nBcc: attacker@example.com"}},submission.startedAt+3000);
   assert.equal(result.success,true);
-  if(result.success){const email=renderEnquiryEmail(result.data);assert.match(email.html,/&lt;Ada &amp; Co&gt;/);assert.doesNotMatch(email.html,/<Ada & Co>/);assert.match(email.text,/Starter Site — From ₦150,000/);assert.doesNotMatch(email.subject,/\r|\n/)}
+  if(result.success){const email=renderEnquiryEmail(result.data);assert.match(email.html,/&lt;Ada &amp; Co&gt;/);assert.doesNotMatch(email.html,/<Ada & Co>/);assert.match(email.text,/Starter Site — From ₦250,000/);assert.doesNotMatch(email.subject,/\r|\n/)}
 });
 
 function requestFor(body: unknown) {

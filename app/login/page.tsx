@@ -9,25 +9,19 @@ import {
   CheckCircle2,
   ArrowRight,
   ShieldAlert,
-  KeyRound,
-  Sparkles,
   Eye,
   EyeOff,
-  ShieldCheck,
-  UserCheck,
 } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo");
-  const initialRole = searchParams.get("role") || "client";
   const notice = searchParams.get("notice");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [authMode, setAuthMode] = useState<"password" | "magic">("password");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(
     notice === "admin_required"
@@ -43,15 +37,16 @@ function LoginForm() {
       : null
   );
 
-  const performLogin = async (targetEmail: string, targetPass: string) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     setMessage(null);
 
     const supabase = createClient();
 
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: targetEmail,
-      password: targetPass,
+      email,
+      password,
     });
 
     if (error) {
@@ -84,56 +79,11 @@ function LoginForm() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (authMode === "password") {
-      await performLogin(email, password);
-    } else {
-      setLoading(true);
-      setMessage(null);
-      const supabase = createClient();
-      const destination = redirectTo || (initialRole === "admin" ? "/admin" : "/portal");
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(
-            destination
-          )}`,
-        },
-      });
-
-      if (error) {
-        setMessage({
-          type: "error",
-          text: error.message || "Failed to dispatch magic link.",
-        });
-      } else {
-        setMessage({
-          type: "success",
-          text: `A secure login link was dispatched to ${email}. Check your email to access your workspace.`,
-        });
-      }
-      setLoading(false);
-    }
-  };
-
-  const handleQuickLogin = (role: "admin" | "client") => {
-    if (role === "admin") {
-      setEmail("okikeafricanlimited@gmail.com");
-      setPassword("Password123!");
-      performLogin("okikeafricanlimited@gmail.com", "Password123!");
-    } else {
-      setEmail("hackkaliboi@gmail.com");
-      setPassword("Password123!");
-      performLogin("hackkaliboi@gmail.com", "Password123!");
-    }
-  };
-
   return (
     <AuthShell
       title="Sign In"
-      subtitle="Access your Client Workspace or Studio Command."
-      badge={initialRole === "admin" ? "Studio Command Login" : "Client Workspace Access"}
+      subtitle="Enter your credentials to access your workspace."
+      badge="Workspace Access"
       footerLink={{
         prompt: "Don't have a client account yet?",
         label: "Create an Account",
@@ -142,7 +92,7 @@ function LoginForm() {
     >
       {message && (
         <div
-          className={`mb-6 p-4 text-xs border ${
+          className={`mb-4 p-3 text-xs border ${
             message.type === "error"
               ? "bg-red-950/40 border-red-800 text-red-200"
               : "bg-emerald-950/40 border-emerald-800 text-emerald-200"
@@ -157,71 +107,11 @@ function LoginForm() {
         </div>
       )}
 
-      {/* Quick Access Account Selector for Frictionless Testing */}
-      <div className="mb-6 p-3.5 bg-[#141414] border border-[#2e2e2e] space-y-2">
-        <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#a8a8a3] flex items-center gap-1.5">
-          <Sparkles className="h-3 w-3 text-lime" />
-          Quick-Access Test Accounts
-        </span>
-        <div className="grid grid-cols-2 gap-2 pt-1">
-          <button
-            type="button"
-            disabled={loading}
-            onClick={() => handleQuickLogin("client")}
-            className="flex items-center justify-center gap-1.5 p-2 bg-[#1e1e1e] hover:bg-[#282828] text-white text-[11px] font-bold uppercase tracking-wider border border-[#333] transition-colors cursor-pointer"
-          >
-            <UserCheck className="h-3.5 w-3.5 text-lime" />
-            <span>Client Portal</span>
-          </button>
-          <button
-            type="button"
-            disabled={loading}
-            onClick={() => handleQuickLogin("admin")}
-            className="flex items-center justify-center gap-1.5 p-2 bg-[#1e1e1e] hover:bg-[#282828] text-white text-[11px] font-bold uppercase tracking-wider border border-[#333] transition-colors cursor-pointer"
-          >
-            <ShieldCheck className="h-3.5 w-3.5 text-action" />
-            <span>Studio Admin</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Mode Switcher */}
-      <div className="flex border-b border-[#262626] mb-6">
-        <button
-          type="button"
-          onClick={() => {
-            setAuthMode("password");
-            setMessage(null);
-          }}
-          className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider text-center transition-colors cursor-pointer ${
-            authMode === "password"
-              ? "text-lime border-b-2 border-lime"
-              : "text-[#70706b] hover:text-white"
-          }`}
-        >
-          Password
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setAuthMode("magic");
-            setMessage(null);
-          }}
-          className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider text-center transition-colors cursor-pointer ${
-            authMode === "magic"
-              ? "text-lime border-b-2 border-lime"
-              : "text-[#70706b] hover:text-white"
-          }`}
-        >
-          Magic Link
-        </button>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="login-email"
-            className="block text-xs font-bold uppercase tracking-wider text-[#a8a8a3] mb-2"
+            className="block text-xs font-bold uppercase tracking-wider text-[#a8a8a3] mb-1.5"
           >
             Email Address
           </label>
@@ -232,63 +122,56 @@ function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="name@company.com"
-            className="w-full bg-[#090909] border border-[#2e2e2e] px-4 py-3 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
+            className="w-full bg-[#090909] border border-[#2e2e2e] px-3.5 py-2.5 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
           />
         </div>
 
-        {authMode === "password" && (
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label
-                htmlFor="login-password"
-                className="block text-xs font-bold uppercase tracking-wider text-[#a8a8a3]"
-              >
-                Password
-              </label>
-              <Link
-                href="/forgot-password"
-                className="text-xs text-[#70706b] hover:text-lime transition-colors"
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <div className="relative">
-              <input
-                id="login-password"
-                type={showPassword ? "text" : "password"}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full bg-[#090909] border border-[#2e2e2e] pl-4 pr-11 py-3 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#70706b] hover:text-white transition-colors"
-              >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label
+              htmlFor="login-password"
+              className="block text-xs font-bold uppercase tracking-wider text-[#a8a8a3]"
+            >
+              Password
+            </label>
+            <Link
+              href="/forgot-password"
+              className="text-xs text-[#70706b] hover:text-lime transition-colors"
+            >
+              Forgot password?
+            </Link>
           </div>
-        )}
+          <div className="relative">
+            <input
+              id="login-password"
+              type={showPassword ? "text" : "password"}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••••••"
+              className="w-full bg-[#090909] border border-[#2e2e2e] pl-3.5 pr-10 py-2.5 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#70706b] hover:text-white transition-colors cursor-pointer"
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+        </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-2 flex items-center justify-center gap-2 bg-lime text-[#0e0e0e] hover:bg-white font-extrabold text-xs uppercase tracking-wider py-3.5 transition-colors disabled:opacity-50 cursor-pointer shadow-xs"
+          className="w-full mt-2 flex items-center justify-center gap-2 bg-lime text-[#0e0e0e] hover:bg-white font-extrabold text-xs uppercase tracking-wider py-3 transition-colors disabled:opacity-50 cursor-pointer shadow-xs"
         >
           {loading ? (
             <span>Authenticating...</span>
-          ) : authMode === "password" ? (
+          ) : (
             <>
               <span>Sign In to Workspace</span>
               <ArrowRight className="h-4 w-4" />
-            </>
-          ) : (
-            <>
-              <span>Dispatch Magic Link</span>
-              <Sparkles className="h-4 w-4" />
             </>
           )}
         </button>
@@ -301,7 +184,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0e0e0e] flex items-center justify-center text-[#70706b] text-xs uppercase tracking-wider">
+        <div className="h-screen bg-[#0e0e0e] flex items-center justify-center text-[#70706b] text-xs uppercase tracking-wider">
           Initialising Authentication...
         </div>
       }

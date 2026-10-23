@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -83,8 +84,14 @@ export function PortalSidebar({
         {/* Brand Header */}
         <div className="flex h-20 items-center justify-between border-b border-ink/10 px-6 bg-surface">
           <Link href="/portal" className="flex items-center gap-3 group">
-            <div className="flex h-9 w-9 items-center justify-center bg-ink text-action font-extrabold text-sm tracking-wider group-hover:bg-lime group-hover:text-ink transition-colors">
-              OK
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center bg-ink p-1.5 transition-colors group-hover:bg-black">
+              <Image
+                src="/footerlogo.png"
+                alt="OKIKE Studio"
+                width={28}
+                height={28}
+                className="h-6 w-6 object-contain"
+              />
             </div>
             <div>
               <div className="flex items-center gap-1.5">

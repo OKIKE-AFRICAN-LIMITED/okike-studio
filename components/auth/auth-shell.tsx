@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ReactNode } from "react";
 import { ArrowLeft, ShieldCheck, Lock, Sparkles } from "lucide-react";
 
@@ -17,26 +18,28 @@ interface AuthShellProps {
 export function AuthShell({
   title,
   subtitle,
-  badge = "Studio & Client Workspace",
+  badge = "Client & Partner Workspace",
   children,
   footerLink,
 }: AuthShellProps) {
   return (
-    <div className="min-h-screen bg-[#0e0e0e] text-[#f5f5f0] flex flex-col lg:flex-row">
+    <div className="h-screen max-h-screen w-full overflow-hidden bg-[#0e0e0e] text-[#f5f5f0] flex flex-col lg:flex-row">
       {/* Left Column: Brand & Editorial Architecture Showcase */}
-      <div className="relative hidden lg:flex lg:w-1/2 flex-col justify-between border-r border-[#262626] bg-[#090909] p-12 xl:p-16 overflow-hidden">
-        {/* Subtle decorative background glow */}
-        <div className="pointer-events-none absolute -top-40 -left-40 h-96 w-96 rounded-full bg-lime/10 blur-[120px]" />
-        <div className="pointer-events-none absolute -bottom-40 right-0 h-96 w-96 rounded-full bg-[#792dff]/10 blur-[140px]" />
-
+      <div className="relative hidden lg:flex lg:w-1/2 h-full flex-col justify-between border-r border-[#262626] bg-[#090909] p-8 xl:p-12 overflow-hidden">
         {/* Top: Brand Monogram */}
         <div className="relative z-10 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center bg-lime text-[#0e0e0e] font-extrabold text-base tracking-wider transition-transform group-hover:scale-105">
-              OK
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-ink border border-white/10 p-2 transition-transform group-hover:scale-105">
+              <Image
+                src="/footerlogo.png"
+                alt="OKIKE Studio"
+                width={32}
+                height={32}
+                className="h-6 w-6 object-contain"
+              />
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-tight text-white group-hover:text-lime transition-colors">
+              <span className="font-extrabold text-sm tracking-tight text-white group-hover:text-lime transition-colors">
                 OKIKE STUDIO
               </span>
               <span className="text-[10px] uppercase tracking-[0.2em] text-[#888880] font-semibold">
@@ -44,44 +47,44 @@ export function AuthShell({
               </span>
             </div>
           </Link>
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#70706b] flex items-center gap-1.5 border border-[#262626] px-3 py-1 bg-[#141414]">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#70706b] flex items-center gap-1.5 border border-[#262626] px-2.5 py-1 bg-[#141414]">
             <Lock className="h-3 w-3 text-lime" />
             Confidential
           </span>
         </div>
 
         {/* Middle: Signature Typography & Statement */}
-        <div className="relative z-10 my-12 space-y-6">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#2a2a2a] bg-[#141414] px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-lime">
+        <div className="relative z-10 my-auto py-6 space-y-4">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2a2a2a] bg-[#141414] px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-lime">
             <Sparkles className="h-3 w-3 text-lime" />
             {badge}
           </span>
-          <h2 className="text-[clamp(2.75rem,4.5vw,4.5rem)] font-extrabold tracking-[-0.04em] leading-[0.95] text-white">
+          <h2 className="text-[clamp(2.25rem,3.8vw,3.75rem)] font-extrabold tracking-[-0.04em] leading-[0.95] text-white">
             STRUCTURE.<br />
             BEFORE<br />
             <span className="text-lime">SCALE.</span>
           </h2>
-          <p className="max-w-md text-base text-[#a8a8a3] leading-relaxed">
-            The unified portal for OKIKE Studio clients and engineering leads. Track sprint progression, inspect design tokens, review proposals, and download staging builds.
+          <p className="max-w-md text-sm text-[#a8a8a3] leading-relaxed">
+            The workspace for OKIKE Studio client engagements. Monitor milestone sprint delivery, review project briefs, and approve staging deliverables.
           </p>
         </div>
 
         {/* Bottom: Security & System Status */}
-        <div className="relative z-10 border-t border-[#262626] pt-6 flex items-center justify-between text-xs text-[#70706b]">
+        <div className="relative z-10 border-t border-[#262626] pt-4 flex items-center justify-between text-xs text-[#70706b]">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
             <span className="font-semibold uppercase tracking-wider text-[#a8a8a3]">
               Supabase Verified Access
             </span>
           </div>
-          <span className="font-medium">© 2026 OKIKE STUDIO</span>
+          <span className="font-medium text-[11px]">© 2026 OKIKE STUDIO</span>
         </div>
       </div>
 
       {/* Right Column: Interactive Auth Form Card */}
-      <div className="flex-1 flex flex-col justify-between p-6 sm:p-12 lg:p-16 xl:p-20 bg-[#0e0e0e] min-h-screen lg:min-h-0">
+      <div className="flex-1 h-full flex flex-col justify-between p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#0e0e0e] overflow-hidden">
         {/* Top Bar on Mobile & Desktop */}
-        <div className="flex items-center justify-between pb-8">
+        <div className="flex items-center justify-between">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#a8a8a3] hover:text-white transition-colors group"
@@ -91,9 +94,13 @@ export function AuthShell({
           </Link>
 
           <Link href="/" className="lg:hidden flex items-center gap-2">
-            <span className="bg-lime px-2 py-0.5 text-xs font-extrabold text-[#0e0e0e]">
-              OK
-            </span>
+            <Image
+              src="/footerlogo.png"
+              alt="OKIKE Studio"
+              width={24}
+              height={24}
+              className="h-6 w-6 object-contain"
+            />
             <span className="font-extrabold text-xs uppercase text-white">
               OKIKE
             </span>
@@ -101,22 +108,22 @@ export function AuthShell({
         </div>
 
         {/* Center Content Form Shell */}
-        <div className="mx-auto w-full max-w-md py-6 sm:py-8">
-          <div className="mb-8">
-            <h1 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
+        <div className="mx-auto w-full max-w-md my-auto py-2">
+          <div className="mb-5">
+            <h1 className="text-xl sm:text-2xl font-extrabold uppercase tracking-tight text-white">
               {title}
             </h1>
-            <p className="mt-2 text-sm text-[#a8a8a3] leading-relaxed">
+            <p className="mt-1 text-xs sm:text-sm text-[#a8a8a3] leading-relaxed">
               {subtitle}
             </p>
           </div>
 
-          <div className="border border-[#262626] bg-[#141414] p-6 sm:p-8 shadow-2xl">
+          <div className="border border-[#262626] bg-[#141414] p-5 sm:p-6 shadow-2xl">
             {children}
           </div>
 
           {footerLink && (
-            <p className="mt-6 text-center text-xs uppercase tracking-wider text-[#888880]">
+            <p className="mt-4 text-center text-xs uppercase tracking-wider text-[#888880]">
               {footerLink.prompt}{" "}
               <Link
                 href={footerLink.href}
@@ -129,7 +136,7 @@ export function AuthShell({
         </div>
 
         {/* Footer Info */}
-        <div className="border-t border-[#262626] pt-6 text-center lg:text-left text-xs uppercase tracking-wider text-[#555]">
+        <div className="border-t border-[#262626] pt-3 text-center lg:text-left text-[11px] uppercase tracking-wider text-[#555]">
           OKIKE Studio · Enterprise Security &amp; Confidential Workspace
         </div>
       </div>

@@ -40,14 +40,14 @@ export async function POST(request: Request) {
 
     const systemInstruction = `You are the lead project strategist at OKIKE Studio, an independent brand, web, and custom software studio.
 Review the visitor's project description and recommend the best starting point among OKIKE Studio's packages:
-1. "starter" — Starter Site (From ₦150,000, up to 5 pages). For new ventures or founders needing a crisp, professional first web presence.
-2. "business-pro" — Business Pro (From ₦450,000, up to 15 pages). For growing companies needing brand identity, CMS content, case studies, or detailed service offerings.
-3. "custom-software" — Custom Software (Quoted individually, typically ₦1,200,000 - ₦3,500,000+). For purpose-built web apps, portals, platforms, multi-role user dashboards, or API workflows.
+1. "starter" — Starter Site (From ₦250,000, up to 5 pages). For new ventures or founders needing a crisp, professional first web presence.
+2. "business-pro" — Business Pro (From ₦750,000, up to 15 pages). For growing companies needing brand identity, CMS content, case studies, or detailed service offerings.
+3. "custom-software" — Custom Software (Quoted individually, typically ₦1,500,000 - ₦4,500,000+). For purpose-built web apps, portals, platforms, multi-role user dashboards, or API workflows.
 
 Pricing Rule: Always quote in Nigerian Naira (NGN). Indicative ranges must start from the package minimums:
-- starter: "₦150,000 – ₦300,000 (indicative, subject to partner review)"
-- business-pro: "₦450,000 – ₦850,000 (indicative, subject to partner review)"
-- custom-software: "₦1,200,000 – ₦3,500,000+ (indicative, custom quote required)"
+- starter: "₦250,000 – ₦500,000 (indicative, subject to partner review)"
+- business-pro: "₦750,000 – ₦1,500,000 (indicative, subject to partner review)"
+- custom-software: "₦1,500,000 – ₦4,500,000+ (indicative, custom quote required)"
 
 Never present prices as fixed or binding; always emphasize that final quotes require studio partner confirmation.`;
 

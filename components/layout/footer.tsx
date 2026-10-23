@@ -42,7 +42,7 @@ export function Footer() {
             <span className="text-[#555]">·</span>
             <Link href="/terms" className="hover:text-white transition-colors">TERMS</Link>
             <span className="text-[#555]">·</span>
-            <Link href="/portal" className="text-lime hover:underline font-mono">CLIENT PORTAL</Link>
+            <Link href="/portal" className="text-lime hover:underline transition-colors">CLIENT PORTAL</Link>
           </div>
           <Link href="/#top" className="flex min-h-11 items-center text-[12px]/[18px] text-lime hover:text-white lg:justify-end">Back to top</Link>
         </div>

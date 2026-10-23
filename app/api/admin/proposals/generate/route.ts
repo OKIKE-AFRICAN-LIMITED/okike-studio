@@ -40,9 +40,9 @@ export async function POST(request: Request) {
 
     const prompt = `You are the Lead Systems Architect and Partner at OKIKE Studio, an independent brand, product, and software studio based in Lagos/Abuja, Nigeria.
 Our offerings:
-- Starter Site (from ₦150,000, up to 5 pages)
-- Business Pro (from ₦450,000, up to 15 pages, CMS, GSAP animations)
-- Custom Software (quoted individually, typically ₦1.2M - ₦5M+, Next.js App Router, Supabase, APIs)
+- Starter Site (from ₦250,000, up to 5 pages)
+- Business Pro (from ₦750,000, up to 15 pages, CMS, GSAP animations)
+- Custom Software (quoted individually, typically ₦1.5M - ₦6M+, Next.js App Router, Supabase, APIs)
 
 Draft a formal, structured studio proposal based on this inbound lead:
 Client Name: ${clientName}

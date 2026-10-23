@@ -5,6 +5,7 @@ export const site = {
     { label: "Work", href: "/work" },
     { label: "Services", href: "/services" },
     { label: "Studio", href: "/studio" },
+    { label: "Portal", href: "/portal" },
   ],
   enquiryHref: "/enquiry",
 } as const;
