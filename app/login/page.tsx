@@ -35,6 +35,11 @@ function LoginForm() {
           type: "error",
           text: "Administrator privileges required. Please sign in with an authorised studio account.",
         }
+      : notice === "signed_out"
+      ? {
+          type: "success",
+          text: "You have been successfully signed out of your workspace session.",
+        }
       : null
   );
 

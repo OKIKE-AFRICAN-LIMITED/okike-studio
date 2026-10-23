@@ -45,14 +45,33 @@ export function Navbar() {
     <header data-gsap="navbar" className="sticky top-0 z-50 border-b border-[#d9d9d4] bg-surface">
       <div className="flex h-[83px] items-center justify-between px-5 md:px-10 lg:h-[103px] lg:gap-12 lg:px-14">
         <StudioLogo />
-        <nav aria-label="Primary" className="hidden flex-1 items-center justify-end gap-12 lg:flex">
+        <nav aria-label="Primary" className="hidden flex-1 items-center justify-end gap-8 lg:flex">
           <NavigationLinks />
-          <ProjectLink />
+          <div className="flex items-center gap-4">
+            <Link
+              href="/portal"
+              className="inline-flex items-center gap-2 text-[12px] font-mono uppercase tracking-wider text-[#555] hover:text-black transition-colors px-3 py-2 border border-[#d9d9d4] hover:border-black rounded-sm"
+            >
+              <span className="size-1.5 rounded-full bg-lime inline-block" />
+              Client Portal
+            </Link>
+            <ProjectLink />
+          </div>
         </nav>
         <MobileMenu logo={<StudioLogo menu />}>
           <nav aria-label="Mobile">
             <NavigationLinks mobile />
-            <div className="flex flex-col gap-6 px-5 pt-6 pb-8 [&_a]:bg-surface [&_a]:px-[18px] [&_a:hover]:bg-surface [&_p]:text-[11px]/[17px] [&_p]:font-medium">
+            <div className="flex flex-col gap-5 px-5 pt-4 pb-8 [&_a]:bg-surface [&_a]:px-[18px] [&_a:hover]:bg-surface [&_p]:text-[11px]/[17px] [&_p]:font-medium">
+              <Link
+                href="/portal"
+                className="flex items-center justify-between py-3 text-[13px] font-mono uppercase tracking-wider text-ink border-b border-[rgb(31_33_8_/_20%)]"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-lime inline-block" />
+                  Client Portal
+                </span>
+                <span>→</span>
+              </Link>
               <ProjectLink />
               <p>INDEPENDENT STUDIO.<br />BRAND, PRODUCT &amp; TECHNOLOGY.</p>
             </div>

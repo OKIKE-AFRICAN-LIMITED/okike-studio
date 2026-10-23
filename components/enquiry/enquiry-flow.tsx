@@ -341,6 +341,16 @@ export function EnquiryFlow({
           Your project enquiry has been securely logged. Our studio lead will review the scope and reach out with
           discovery schedule details and an initial quotation.
         </p>
+        <div className="mt-8 p-4 max-w-2xl bg-paper/70 border border-ink/15 text-xs text-muted flex items-start gap-3">
+          <span className="size-2 rounded-full bg-lime mt-1 shrink-0" />
+          <p className="leading-relaxed">
+            <strong className="text-ink">Workspace Access:</strong> Upon review of your brief, your dedicated project space will be activated. You will be able to log in to the{" "}
+            <Link href="/portal" className="font-mono text-ink underline hover:text-lime">
+              Client Portal
+            </Link>{" "}
+            anytime to review milestones, contract proposals, and deliverables.
+          </p>
+        </div>
         <Link
           href="/"
           className="mt-10 inline-flex min-h-11 items-center font-bold uppercase tracking-wider text-xs underline underline-offset-4 hover:text-lime"
