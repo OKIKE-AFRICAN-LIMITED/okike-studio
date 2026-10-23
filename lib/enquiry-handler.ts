@@ -1,4 +1,4 @@
-import { renderEnquiryEmail, validateEnquiry } from "./enquiry-server.ts";
+import { renderEnquiryEmail, validateEnquiry, type ValidatedEnquiry } from "./enquiry-server.ts";
 
 const maxBodyBytes = 24_000;
 const genericDeliveryError = "We couldn’t submit your enquiry. Your answers are still here, so please try again.";
@@ -21,6 +21,8 @@ export type EnquiryHandlerDependencies = {
     html: string;
     text: string;
   }, options: { idempotencyKey: string }) => Promise<ResendSendResult>;
+  saveEnquiry?: (enquiry: ValidatedEnquiry) => Promise<{ id?: string; error?: unknown }>;
+  triggerTriage?: (enquiryId: string, enquiry: ValidatedEnquiry) => Promise<void>;
 };
 
 export async function handleEnquiryRequest(request: Request, dependencies: EnquiryHandlerDependencies) {
@@ -48,6 +50,17 @@ export async function handleEnquiryRequest(request: Request, dependencies: Enqui
     return Response.json({ ok: false, error: missingConfigurationError }, { status: 503, headers: { "Retry-After": "3600" } });
   }
 
+  // 1. Persist to database first (so enquiries are never lost even if email fails)
+  let savedId: string | undefined;
+  if (dependencies.saveEnquiry) {
+    try {
+      const saveRes = await dependencies.saveEnquiry(result.data);
+      savedId = saveRes?.id;
+    } catch (saveErr) {
+      console.warn("Enquiry database save non-fatal error:", saveErr);
+    }
+  }
+
   const email = renderEnquiryEmail(result.data);
   try {
     const providerResult = await dependencies.send({
@@ -62,7 +75,19 @@ export async function handleEnquiryRequest(request: Request, dependencies: Enqui
     if (providerResult.error || !providerResult.data?.id) {
       return Response.json({ ok: false, error: genericDeliveryError }, { status: 502 });
     }
-    return Response.json({ ok: true, message: "Your enquiry has been submitted." }, { status: 200 });
+
+    // 2. Trigger asynchronous AI triage
+    if (savedId && dependencies.triggerTriage) {
+      dependencies.triggerTriage(savedId, result.data).catch((triageErr) => {
+        console.warn("Enquiry AI triage background error:", triageErr);
+      });
+    }
+
+    return Response.json({
+      ok: true,
+      message: "Your enquiry has been submitted.",
+      ...(savedId ? { enquiryId: savedId } : {}),
+    }, { status: 200 });
   } catch {
     return Response.json({ ok: false, error: genericDeliveryError }, { status: 502 });
   }

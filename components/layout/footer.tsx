@@ -33,10 +33,14 @@ export function Footer() {
         <p data-gsap="footer-wordmark" className="mt-7 flex flex-col overflow-hidden whitespace-nowrap text-[clamp(5.75rem,25vw,8rem)]/[.92] font-extrabold tracking-[-.03em] md:block md:text-[92px]/[.96] lg:mt-12 lg:text-[clamp(9.75rem,13.7vw,12.5rem)]/[1]" aria-label="OKIKE Studio">
           <span>OKIKE</span> <span>STUDIO</span>
         </p>
-        <div className="mt-7 flex flex-col gap-3 border-t border-[#404040] pt-5 text-[10px]/[16px] lg:mt-12 lg:grid lg:grid-cols-[16.25rem_1fr_8rem] lg:items-center lg:[&_div:nth-child(2)]:text-center">
+        <div className="mt-7 flex flex-col gap-3 border-t border-[#404040] pt-5 text-[10px]/[16px] lg:mt-12 lg:grid lg:grid-cols-[16.25rem_1fr_12rem] lg:items-center lg:[&_div:nth-child(2)]:text-center">
           <p>© 2026 OKIKE STUDIO</p>
           <div className="flex flex-wrap items-center gap-2.5 text-[#a8a8a3] lg:justify-center">
             <span>INDEPENDENT / WORKING ACROSS TIME ZONES</span>
+            <span className="text-[#555]">·</span>
+            <Link href="/privacy" className="hover:text-white transition-colors">PRIVACY (NDPA 2023)</Link>
+            <span className="text-[#555]">·</span>
+            <Link href="/terms" className="hover:text-white transition-colors">TERMS</Link>
             <span className="text-[#555]">·</span>
             <Link href="/portal" className="text-lime hover:underline font-mono">CLIENT PORTAL</Link>
           </div>

@@ -29,6 +29,11 @@ export default async function AdminEnquiriesPage() {
         timeline: row.timeline,
         status: row.status as EnquiryItem["status"],
         admin_notes: row.admin_notes,
+        ai_summary: row.ai_summary,
+        ai_tags: (row.ai_tags as Record<string, unknown>) || null,
+        ai_spam_score: row.ai_spam_score,
+        assistant_used: row.assistant_used,
+        ai_recommended_package: row.ai_recommended_package,
         created_at: new Date(row.created_at).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",

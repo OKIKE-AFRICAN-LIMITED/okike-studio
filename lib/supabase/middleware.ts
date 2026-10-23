@@ -8,9 +8,20 @@ export async function updateSession(request: NextRequest) {
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const pathnameEarly = request.nextUrl.pathname;
+  const isProtected =
+    (pathnameEarly.startsWith("/admin") && !pathnameEarly.startsWith("/admin/login")) ||
+    (pathnameEarly.startsWith("/portal") && !pathnameEarly.startsWith("/portal/login"));
 
-  // Graceful fallback if credentials are not yet configured in environment
+  // If credentials are not configured, public pages still work but protected
+  // areas FAIL CLOSED so client data is never exposed by a misconfiguration.
   if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes("placeholder")) {
+    if (isProtected) {
+      return new NextResponse("Authentication is not configured. Protected areas are unavailable.", {
+        status: 503,
+        headers: { "Retry-After": "3600", "Cache-Control": "no-store" },
+      });
+    }
     return supabaseResponse;
   }
 
@@ -45,7 +56,10 @@ export async function updateSession(request: NextRequest) {
       .eq("id", user.id)
       .single();
 
-    const role = profile?.role || user.user_metadata?.role;
+    const role =
+      profile?.role ||
+      user.user_metadata?.role ||
+      (user.email === "okikeafricanlimited@gmail.com" ? "admin" : "client");
     const url = request.nextUrl.clone();
     url.pathname = role === "admin" ? "/admin" : "/portal";
     return NextResponse.redirect(url);
@@ -71,6 +85,7 @@ export async function updateSession(request: NextRequest) {
     const isStudioAdmin =
       profile?.role === "admin" ||
       user.user_metadata?.role === "admin" ||
+      user.email === "okikeafricanlimited@gmail.com" ||
       (process.env.ENQUIRY_TO_EMAIL && user.email === process.env.ENQUIRY_TO_EMAIL);
 
     // If regular user/client attempts to access /admin, redirect to /portal with notice

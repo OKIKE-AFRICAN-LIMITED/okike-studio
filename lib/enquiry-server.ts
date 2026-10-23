@@ -13,6 +13,9 @@ const limits = {
 export type ValidatedEnquiry = Omit<EnquiryPayload, "packageId" | "submission"> & {
   package?: Pick<PricingPackage, "id" | "name" | "price" | "scope">;
   submissionId: string;
+  consentAt?: string;
+  assistantUsed?: boolean;
+  aiRecommendedPackage?: string;
 };
 
 export type ValidationResult =
@@ -68,6 +71,10 @@ export function validateEnquiry(input: unknown, now = Date.now()): ValidationRes
   if (!Number.isSafeInteger(startedAt) || startedAt <= 0 || startedAt > now) errors["submission.startedAt"] = "Invalid form start time.";
   if (stringField(submission.companyWebsite, "submission.companyWebsite", 200, errors)) errors.form = "Unable to accept this enquiry.";
 
+  const consentAt = typeof value.consentAt === "string" ? value.consentAt : value.consent === true ? new Date(now).toISOString() : undefined;
+  const assistantUsed = value.assistantUsed === true;
+  const aiRecommendedPackage = typeof value.aiRecommendedPackage === "string" ? value.aiRecommendedPackage.slice(0, 50) : undefined;
+
   if (Object.keys(errors).length) return { success: false, errors };
   return {
     success: true,
@@ -78,6 +85,9 @@ export function validateEnquiry(input: unknown, now = Date.now()): ValidationRes
       project: { goal, ...(brand !== undefined ? { brand } : {}), ...(website !== undefined ? { website } : {}), ...(software !== undefined ? { software } : {}), budget, timing },
       contact: { name, email, ...(company ? { company } : {}) },
       submissionId,
+      ...(consentAt ? { consentAt } : {}),
+      ...(assistantUsed ? { assistantUsed } : {}),
+      ...(aiRecommendedPackage ? { aiRecommendedPackage } : {}),
     },
   };
 }

@@ -367,3 +367,61 @@ DROP POLICY IF EXISTS "Admins manage deliverables" ON public.deliverables;
 CREATE POLICY "Admins manage deliverables"
     ON public.deliverables FOR ALL
     USING (public.is_admin());
+
+-- 11. DATA CAPTURE & AI FOUNDATIONS (idempotent, safe to re-run)
+
+-- Enquiries: persistence metadata, consent, AI triage and outcome tracking
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS submission_id TEXT;
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'website';
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS consent_at TIMESTAMPTZ;
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS assistant_used BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS ai_recommended_package TEXT;
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS ai_summary TEXT;
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS ai_tags JSONB NOT NULL DEFAULT '{}'::jsonb;
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS ai_spam_score NUMERIC(3, 2);
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS ai_triaged_at TIMESTAMPTZ;
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS quoted_amount NUMERIC(12, 2);
+ALTER TABLE public.enquiries ADD COLUMN IF NOT EXISTS lost_reason TEXT;
+CREATE UNIQUE INDEX IF NOT EXISTS enquiries_submission_id_key ON public.enquiries (submission_id);
+
+-- Public pricing is in naira
+ALTER TABLE public.proposals ALTER COLUMN currency SET DEFAULT 'NGN';
+
+-- Time tracking (training data for future hour-estimation models)
+CREATE TABLE IF NOT EXISTS public.time_entries (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    project_id UUID NOT NULL REFERENCES public.client_projects(id) ON DELETE CASCADE,
+    milestone_id UUID REFERENCES public.milestones(id) ON DELETE SET NULL,
+    user_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    phase TEXT,
+    hours NUMERIC(6, 2) NOT NULL CHECK (hours > 0),
+    work_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+ALTER TABLE public.time_entries ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Admins manage time entries" ON public.time_entries;
+CREATE POLICY "Admins manage time entries"
+    ON public.time_entries FOR ALL
+    USING (public.is_admin());
+
+-- AI audit log (every model call; written by the server with the service role)
+CREATE TABLE IF NOT EXISTS public.ai_runs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    feature TEXT NOT NULL,           -- e.g. 'enquiry_assist', 'enquiry_triage', 'site_chat'
+    model TEXT NOT NULL,
+    ref_id TEXT,                     -- related record (e.g. enquiry id)
+    input_chars INT,
+    output JSONB,
+    prompt_tokens INT,
+    output_tokens INT,
+    latency_ms INT,
+    ok BOOLEAN NOT NULL DEFAULT true,
+    error TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+ALTER TABLE public.ai_runs ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Admins read ai runs" ON public.ai_runs;
+CREATE POLICY "Admins read ai runs"
+    ON public.ai_runs FOR SELECT
+    USING (public.is_admin());

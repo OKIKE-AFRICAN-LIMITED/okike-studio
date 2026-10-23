@@ -23,6 +23,9 @@ export type EnquiryPayload = {
   project: { goal: string; brand?: string; website?: string; software?: string; budget: string; timing: string };
   contact: { name: string; email: string; company?: string };
   submission: { id: string; startedAt: number; companyWebsite: string };
+  consent?: boolean;
+  assistantUsed?: boolean;
+  aiRecommendedPackage?: string;
 };
 
 export function parsePackage(value?: string | string[]): PricingPackage | undefined {
@@ -36,7 +39,14 @@ export function servicesForPackage(packageId?: PackageId): ServiceId[] {
   return [];
 }
 
-export function buildPayload(services: ServiceId[], helpMeDecide: boolean, packageId: PackageId | undefined, answers: EnquiryAnswers, submission?: EnquiryPayload["submission"]): EnquiryPayload {
+export function buildPayload(
+  services: ServiceId[],
+  helpMeDecide: boolean,
+  packageId: PackageId | undefined,
+  answers: EnquiryAnswers,
+  submission?: EnquiryPayload["submission"],
+  metadata?: { consent?: boolean; assistantUsed?: boolean; aiRecommendedPackage?: string }
+): EnquiryPayload {
   return {
     services,
     helpMeDecide,
@@ -55,6 +65,9 @@ export function buildPayload(services: ServiceId[], helpMeDecide: boolean, packa
       ...(answers.company.trim() ? { company: answers.company.trim() } : {}),
     },
     submission: submission ?? { id: crypto.randomUUID(), startedAt: Date.now(), companyWebsite: "" },
+    ...(metadata?.consent !== undefined ? { consent: metadata.consent } : {}),
+    ...(metadata?.assistantUsed !== undefined ? { assistantUsed: metadata.assistantUsed } : {}),
+    ...(metadata?.aiRecommendedPackage ? { aiRecommendedPackage: metadata.aiRecommendedPackage } : {}),
   };
 }
 

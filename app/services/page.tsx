@@ -7,7 +7,9 @@ import { ServicesScope } from "@/components/services/services-scope";
 import { getServicesPageContent, getHomePageContent } from "@/lib/cms";
 
 export const metadata: Metadata = {
-  title: "Services | OKIKE Studio",
+  title: "Services & Sprints | OKIKE Studio",
+  description:
+    "Design, Build, and Deploy sprints for brand identity, custom web platforms, and digital software. Transparent pricing in Naira with human confirmation.",
 };
 
 export default async function ServicesPage() {

@@ -7,7 +7,9 @@ import { StudioTeam } from "@/components/studio/studio-team";
 import { getStudioPageContent, getHomePageContent } from "@/lib/cms";
 
 export const metadata: Metadata = {
-  title: "Studio | OKIKE Studio",
+  title: "About The Studio & Team | OKIKE Studio",
+  description:
+    "An independent studio connecting strategy, identity, and technology. Learn how our multidisciplinary team partners with founders to turn ideas into working systems.",
 };
 
 export default async function StudioPage() {

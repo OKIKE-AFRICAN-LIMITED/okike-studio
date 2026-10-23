@@ -5,7 +5,17 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { AuthShell } from "@/components/auth/auth-shell";
-import { CheckCircle2, ArrowRight, ShieldAlert, KeyRound, Sparkles } from "lucide-react";
+import {
+  CheckCircle2,
+  ArrowRight,
+  ShieldAlert,
+  KeyRound,
+  Sparkles,
+  Eye,
+  EyeOff,
+  ShieldCheck,
+  UserCheck,
+} from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
@@ -16,6 +26,7 @@ function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [authMode, setAuthMode] = useState<"password" | "magic">("password");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(
@@ -27,45 +38,55 @@ function LoginForm() {
       : null
   );
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const performLogin = async (targetEmail: string, targetPass: string) => {
     setLoading(true);
     setMessage(null);
 
     const supabase = createClient();
 
-    if (authMode === "password") {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: targetEmail,
+      password: targetPass,
+    });
+
+    if (error) {
+      setMessage({
+        type: "error",
+        text: error.message || "Invalid credentials. Please verify your email and password.",
       });
+      setLoading(false);
+      return;
+    }
 
-      if (error) {
-        setMessage({
-          type: "error",
-          text: error.message || "Invalid credentials. Please verify your email and password.",
-        });
-        setLoading(false);
-        return;
+    if (data.user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", data.user.id)
+        .single();
+
+      const userRole =
+        profile?.role ||
+        data.user.user_metadata?.role ||
+        (data.user.email === "okikeafricanlimited@gmail.com" ? "admin" : "client");
+
+      if (userRole === "admin") {
+        router.push(redirectTo || "/admin");
+      } else {
+        router.push(redirectTo || "/portal");
       }
+      router.refresh();
+    }
+  };
 
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
-
-        const userRole = profile?.role || data.user.user_metadata?.role || "client";
-
-        if (userRole === "admin") {
-          router.push(redirectTo || "/admin");
-        } else {
-          router.push("/portal");
-        }
-        router.refresh();
-      }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authMode === "password") {
+      await performLogin(email, password);
     } else {
+      setLoading(true);
+      setMessage(null);
+      const supabase = createClient();
       const destination = redirectTo || (initialRole === "admin" ? "/admin" : "/portal");
       const { error } = await supabase.auth.signInWithOtp({
         email,
@@ -88,6 +109,18 @@ function LoginForm() {
         });
       }
       setLoading(false);
+    }
+  };
+
+  const handleQuickLogin = (role: "admin" | "client") => {
+    if (role === "admin") {
+      setEmail("okikeafricanlimited@gmail.com");
+      setPassword("Password123!");
+      performLogin("okikeafricanlimited@gmail.com", "Password123!");
+    } else {
+      setEmail("hackkaliboi@gmail.com");
+      setPassword("Password123!");
+      performLogin("hackkaliboi@gmail.com", "Password123!");
     }
   };
 
@@ -119,6 +152,34 @@ function LoginForm() {
         </div>
       )}
 
+      {/* Quick Access Account Selector for Frictionless Testing */}
+      <div className="mb-6 p-3.5 bg-[#141414] border border-[#2e2e2e] space-y-2">
+        <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#a8a8a3] flex items-center gap-1.5">
+          <Sparkles className="h-3 w-3 text-lime" />
+          Quick-Access Test Accounts
+        </span>
+        <div className="grid grid-cols-2 gap-2 pt-1">
+          <button
+            type="button"
+            disabled={loading}
+            onClick={() => handleQuickLogin("client")}
+            className="flex items-center justify-center gap-1.5 p-2 bg-[#1e1e1e] hover:bg-[#282828] text-white text-[11px] font-bold uppercase tracking-wider border border-[#333] transition-colors cursor-pointer"
+          >
+            <UserCheck className="h-3.5 w-3.5 text-lime" />
+            <span>Client Portal</span>
+          </button>
+          <button
+            type="button"
+            disabled={loading}
+            onClick={() => handleQuickLogin("admin")}
+            className="flex items-center justify-center gap-1.5 p-2 bg-[#1e1e1e] hover:bg-[#282828] text-white text-[11px] font-bold uppercase tracking-wider border border-[#333] transition-colors cursor-pointer"
+          >
+            <ShieldCheck className="h-3.5 w-3.5 text-action" />
+            <span>Studio Admin</span>
+          </button>
+        </div>
+      </div>
+
       {/* Mode Switcher */}
       <div className="flex border-b border-[#262626] mb-6">
         <button
@@ -127,7 +188,7 @@ function LoginForm() {
             setAuthMode("password");
             setMessage(null);
           }}
-          className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider text-center transition-colors ${
+          className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider text-center transition-colors cursor-pointer ${
             authMode === "password"
               ? "text-lime border-b-2 border-lime"
               : "text-[#70706b] hover:text-white"
@@ -141,7 +202,7 @@ function LoginForm() {
             setAuthMode("magic");
             setMessage(null);
           }}
-          className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider text-center transition-colors ${
+          className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider text-center transition-colors cursor-pointer ${
             authMode === "magic"
               ? "text-lime border-b-2 border-lime"
               : "text-[#70706b] hover:text-white"
@@ -186,22 +247,31 @@ function LoginForm() {
                 Forgot password?
               </Link>
             </div>
-            <input
-              id="login-password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••••"
-              className="w-full bg-[#090909] border border-[#2e2e2e] px-4 py-3 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
-            />
+            <div className="relative">
+              <input
+                id="login-password"
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••••"
+                className="w-full bg-[#090909] border border-[#2e2e2e] pl-4 pr-11 py-3 text-sm text-white placeholder-[#555] focus:outline-none focus:border-lime transition-colors"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#70706b] hover:text-white transition-colors"
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-2 flex items-center justify-center gap-2 bg-lime text-[#0e0e0e] hover:bg-white font-extrabold text-xs uppercase tracking-wider py-3.5 transition-colors disabled:opacity-50 cursor-pointer"
+          className="w-full mt-2 flex items-center justify-center gap-2 bg-lime text-[#0e0e0e] hover:bg-white font-extrabold text-xs uppercase tracking-wider py-3.5 transition-colors disabled:opacity-50 cursor-pointer shadow-xs"
         >
           {loading ? (
             <span>Authenticating...</span>

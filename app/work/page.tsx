@@ -4,7 +4,9 @@ import { WorkProjectCard } from "@/components/work/work-project-card";
 import { getStudioProjects } from "@/lib/cms";
 
 export const metadata: Metadata = {
-  title: "Work | OKIKE Studio",
+  title: "Selected Work & Case Studies | OKIKE Studio",
+  description:
+    "Explore case studies and flagship digital experiences crafted by OKIKE Studio across brand strategy, web design, and bespoke technology.",
 };
 
 export default async function WorkPage() {
