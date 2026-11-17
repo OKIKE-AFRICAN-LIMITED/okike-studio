@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { HandoverRiskBadge, PortalWeeklySummary } from "@/components/portal/portal-ai-insights";
 import { StagingHealthWidget } from "@/components/portal/staging-health-widget";
-import { defaultClientDeliverables } from "@/lib/portal-defaults";
 
 export default async function ClientPortalPage() {
   let clientCompany = "Client Workspace";
@@ -107,10 +106,6 @@ export default async function ClientPortalPage() {
     }
   } catch {
     // Database empty clean slate
-  }
-
-  if (recentDeliverables.length === 0) {
-    recentDeliverables = defaultClientDeliverables.slice(0, 4);
   }
 
   // 2. Fetch user's real submitted enquiries from Supabase

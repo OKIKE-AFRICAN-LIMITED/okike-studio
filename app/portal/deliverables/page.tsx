@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Plus } from "lucide-react";
+import { FolderDown, Plus } from "lucide-react";
 import { VaultQaWidget } from "@/components/portal/portal-ai-insights";
 import {
   DeliverablesVaultViewer,
   type DeliverableItem,
 } from "@/components/portal/deliverables-vault-viewer";
-import { defaultClientDeliverables } from "@/lib/portal-defaults";
 
 export const metadata = {
   title: "Deliverables & Asset Vault | OKIKE Studio Client Workspace",
@@ -54,11 +53,8 @@ export default async function ClientDeliverablesPage() {
       }));
     }
   } catch {
-    // Non-fatal
+    // Clean slate fallback
   }
-
-  // If no database deliverables exist yet, populate with rich studio workspace defaults
-  const activeDeliverables = deliverables.length > 0 ? deliverables : defaultClientDeliverables;
 
   return (
     <div className="space-y-8 font-sans">
@@ -72,27 +68,54 @@ export default async function ClientDeliverablesPage() {
           </p>
         </div>
 
-        <Link
-          href="/enquiry"
-          className="inline-flex items-center gap-2 bg-ink text-white hover:bg-lime hover:text-ink px-4 py-2 text-xs font-extrabold uppercase tracking-wider transition-colors shrink-0 shadow-xs self-start sm:self-auto"
-        >
-          <Plus className="h-3.5 w-3.5 text-action" />
-          <span>Request New Asset</span>
-        </Link>
+        {deliverables.length > 0 && (
+          <Link
+            href="/enquiry"
+            className="inline-flex items-center gap-2 bg-ink text-white hover:bg-lime hover:text-ink px-4 py-2 text-xs font-extrabold uppercase tracking-wider transition-colors shrink-0 shadow-xs self-start sm:self-auto"
+          >
+            <Plus className="h-3.5 w-3.5 text-action" />
+            <span>Request New Asset</span>
+          </Link>
+        )}
       </div>
 
-      {/* Semantic Vault AI Assistant */}
-      <VaultQaWidget
-        projectName={projectName}
-        deliverables={activeDeliverables}
-      />
+      {deliverables.length > 0 ? (
+        <>
+          {/* Semantic Vault AI Assistant */}
+          <VaultQaWidget projectName={projectName} deliverables={deliverables} />
 
-      {/* Interactive Vault Viewer (Filters, Search, Staging Health, Feedback Modal) */}
-      <DeliverablesVaultViewer
-        deliverables={activeDeliverables}
-        projectName={projectName}
-        projectId={projectId}
-      />
+          {/* Interactive Vault Viewer (Filters, Search, Staging Health, Feedback Modal) */}
+          <DeliverablesVaultViewer
+            deliverables={deliverables}
+            projectName={projectName}
+            projectId={projectId}
+          />
+        </>
+      ) : (
+        /* Clean Slate Empty State */
+        <div className="border-2 border-dashed border-ink/20 bg-surface p-12 text-center space-y-4 shadow-xs">
+          <div className="h-12 w-12 border border-ink/15 bg-paper flex items-center justify-center mx-auto text-muted">
+            <FolderDown className="h-6 w-6 text-ink/30" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-sm font-extrabold uppercase tracking-wider text-ink">
+              Your Deliverables Vault is Clean
+            </h3>
+            <p className="text-xs text-muted max-w-sm mx-auto">
+              As OKIKE Studio engineers design tokens, vector brand packages, interactive prototypes, and production deployments, they will be archived here for instant client access.
+            </p>
+          </div>
+          <div className="pt-2">
+            <Link
+              href="/enquiry"
+              className="inline-flex items-center gap-2 bg-ink text-white hover:bg-lime hover:text-ink px-4 py-2.5 text-xs uppercase tracking-wider font-extrabold transition-colors shadow-xs"
+            >
+              <Plus className="h-3.5 w-3.5 text-action" />
+              <span>Initiate Project Scope</span>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
