@@ -1,10 +1,9 @@
 import { selectedProjects, type SelectedProject } from "@/lib/projects";
 import { SectionContainer } from "@/components/ui/section-container";
-import { ProjectCard } from "./project-card";
+import { WorkInteractiveGallery } from "@/components/work/work-interactive-gallery";
 
 export function SelectedWork({ projects }: { projects?: SelectedProject[] }) {
   const list = projects && projects.length > 0 ? projects : selectedProjects;
-  const [featuredProject, ...pairedProjects] = list;
 
   return (
     <SectionContainer
@@ -15,16 +14,15 @@ export function SelectedWork({ projects }: { projects?: SelectedProject[] }) {
     >
       <header data-gsap="work-heading" className="flex min-w-0 flex-col gap-6">
         <p className="text-[12px] font-medium leading-normal">03 / SELECTED WORK</p>
-        <h2 id="selected-work-heading" className="text-[44px]/[48px] font-extrabold tracking-[-1.7px] lg:text-[76px]/[80px] lg:tracking-[-3px]">Selected work.</h2>
+        <h2
+          id="selected-work-heading"
+          className="text-[44px]/[48px] font-extrabold tracking-[-1.7px] lg:text-[76px]/[80px] lg:tracking-[-3px]"
+        >
+          Selected work.
+        </h2>
       </header>
 
-      <ProjectCard project={featuredProject} />
-
-      <div className="grid gap-9 lg:grid-cols-2 lg:gap-8 **:data-project-image:lg:aspect-648/440">
-        {pairedProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
+      <WorkInteractiveGallery projects={[...list]} />
     </SectionContainer>
   );
 }

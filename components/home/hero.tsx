@@ -3,17 +3,13 @@ import { Button } from "@/components/ui/button";
 import { SectionContainer } from "@/components/ui/section-container";
 import { site } from "@/lib/site";
 import { defaultHomePageContent, type HomePageContent } from "@/lib/cms-defaults";
+import { HeroParticleCanvas } from "./hero-particle-canvas";
 
 export function Hero({ content }: { content?: HomePageContent["hero"] }) {
   const data = content || defaultHomePageContent.hero;
 
   return (
     <SectionContainer labelledBy="hero-heading" contentClassName="flex flex-col gap-7 bg-surface py-7! [font-optical-sizing:auto] [font-variation-settings:'wdth'_100] lg:gap-9 lg:py-[44px_32px]! lg:[--page-gutter:56px]">
-      <p data-gsap="hero-eyebrow" className="text-[10px]/[15px] font-medium tracking-[.7px] lg:text-[12px]/[16px] lg:tracking-[1px]">
-        <span className="block lg:inline">{data.eyebrowLeft}</span>
-        <span className="hidden whitespace-pre lg:inline" aria-hidden="true"> / </span>
-        <span className="block lg:inline">{data.eyebrowRight}</span>
-      </p>
       <div className="grid gap-7 lg:grid-cols-[minmax(0,752fr)_minmax(0,536fr)] lg:items-center lg:gap-10">
         <div data-gsap="hero-copy" className="flex min-w-0 flex-col items-start gap-6 lg:gap-7">
           <h1 id="hero-heading" className="text-[clamp(48px,14.36vw,56px)]/[.910714] font-extrabold tracking-[-2.5px] md:text-[72px] md:tracking-[-3px] lg:text-[clamp(72px,7.7778vw,112px)] lg:tracking-[-5px]">
@@ -33,10 +29,7 @@ export function Hero({ content }: { content?: HomePageContent["hero"] }) {
             </Button>
           </div>
         </div>
-        <picture data-gsap="hero-artwork" className="block w-full md:max-w-134 md:justify-self-center [&_img]:block [&_img]:h-auto [&_img]:w-full">
-          <source media="(max-width: 47.999rem)" srcSet="/hero/architecture-mobile.png" width={350} height={353} />
-          <Image src="/hero/architecture-desktop.svg" alt="" width={536} height={540} loading="eager" />
-        </picture>
+        <HeroParticleCanvas />
       </div>
       <div data-gsap="hero-rail" className="text-[10px]/[16px] font-medium lg:flex lg:justify-between lg:gap-6 lg:border-t lg:border-[#d1d1cc] lg:pt-5.5 lg:text-eyebrow">
         <p>{data.railDisciplines}</p>

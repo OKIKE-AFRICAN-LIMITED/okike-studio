@@ -425,3 +425,43 @@ DROP POLICY IF EXISTS "Admins read ai runs" ON public.ai_runs;
 CREATE POLICY "Admins read ai runs"
     ON public.ai_runs FOR SELECT
     USING (public.is_admin());
+
+
+-- 11. CLIENT PORTAL PROJECT FEEDBACK & REVISION REQUESTS
+CREATE TABLE IF NOT EXISTS public.project_feedback (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    project_id UUID REFERENCES public.client_projects(id) ON DELETE CASCADE,
+    deliverable_id UUID REFERENCES public.deliverables(id) ON DELETE SET NULL,
+    client_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    author_email TEXT NOT NULL,
+    author_name TEXT,
+    feedback_type TEXT NOT NULL DEFAULT 'revision', -- 'revision', 'approval', 'question', 'issue'
+    priority TEXT NOT NULL DEFAULT 'normal',       -- 'low', 'normal', 'urgent'
+    message TEXT NOT NULL,
+    reference_url TEXT,
+    status TEXT NOT NULL DEFAULT 'open',          -- 'open', 'in_review', 'resolved', 'dismissed'
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE public.project_feedback ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admins manage all project feedback" ON public.project_feedback;
+CREATE POLICY "Admins manage all project feedback"
+    ON public.project_feedback FOR ALL
+    USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Clients can insert feedback" ON public.project_feedback;
+CREATE POLICY "Clients can insert feedback"
+    ON public.project_feedback FOR INSERT
+    WITH CHECK (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Clients can view feedback for their projects" ON public.project_feedback;
+CREATE POLICY "Clients can view feedback for their projects"
+    ON public.project_feedback FOR SELECT
+    USING (
+        auth.uid() = client_id OR
+        EXISTS (
+            SELECT 1 FROM public.client_projects cp
+            WHERE cp.id = project_feedback.project_id AND cp.client_id = auth.uid()
+        )
+    );

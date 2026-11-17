@@ -2,7 +2,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import {
   CheckCircle2,
-  Clock,
   ArrowRight,
   ExternalLink,
   FolderDown,
@@ -12,14 +11,14 @@ import {
   Plus,
   Layers,
   Inbox,
-  ShieldCheck,
 } from "lucide-react";
 import { HandoverRiskBadge, PortalWeeklySummary } from "@/components/portal/portal-ai-insights";
+import { StagingHealthWidget } from "@/components/portal/staging-health-widget";
+import { defaultClientDeliverables } from "@/lib/portal-defaults";
 
 export default async function ClientPortalPage() {
   let clientCompany = "Client Workspace";
   let clientName = "Client Partner";
-  let userEmail = "";
 
   const supabase = await createClient();
   const {
@@ -27,7 +26,6 @@ export default async function ClientPortalPage() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    userEmail = user.email || "";
     clientName = user.email?.split("@")[0] || "Client Partner";
 
     try {
@@ -109,6 +107,10 @@ export default async function ClientPortalPage() {
     }
   } catch {
     // Database empty clean slate
+  }
+
+  if (recentDeliverables.length === 0) {
+    recentDeliverables = defaultClientDeliverables.slice(0, 4);
   }
 
   // 2. Fetch user's real submitted enquiries from Supabase
@@ -243,6 +245,12 @@ export default async function ClientPortalPage() {
             )}
           </div>
 
+          {/* Staging Health & Deployment Inspector */}
+          <StagingHealthWidget
+            projectName={activeProject.name}
+            projectId={activeProject.id}
+          />
+
           {/* AI Progress Synthesis */}
           <PortalWeeklySummary
             projectName={activeProject.name}
@@ -295,7 +303,7 @@ export default async function ClientPortalPage() {
                   1. Scope Your Project
                 </h3>
                 <p className="text-xs text-muted leading-relaxed">
-                  Use our intelligent scoping assistant to explore options between Starter (₦150k), Business Pro (₦450k), or Custom Software with indicative naira estimates.
+                  Use our intelligent scoping assistant to explore options between Starter (₦250k), Business Pro (₦750k), or Custom Software with indicative naira estimates.
                 </p>
               </div>
               <Link

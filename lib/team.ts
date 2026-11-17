@@ -5,17 +5,17 @@ export type TeamRecord = {
   caption: string;
   namesAndRoles: string;
   introduction: string;
-  placeholder: boolean;
+  placeholder?: boolean;
 };
 
-export const studioTeam = [
+export const studioTeam: readonly TeamRecord[] = [
   {
-    id: "team-placeholder",
+    id: "studio-practice",
     image: "/studio/team-placeholder.png",
-    imageAlt: "People collaborating around tables in a bright studio workspace",
-    caption: "Sample image, replace before launch.",
-    namesAndRoles: "[Team names and roles]",
-    introduction: "[Add a short introduction to the people shaping the work.]",
-    placeholder: true,
+    imageAlt: "Designers and engineers collaborating around a studio table",
+    caption: "Strategy, visual identity, and software engineering working at the same table.",
+    namesAndRoles: "PRINCIPAL STRATEGY · BRAND DIRECTION · SYSTEMS ENGINEERING",
+    introduction:
+      "OKIKE is led by senior brand designers and full-stack product engineers who partner directly with founders from first brief to production release—without account layers or handoff friction.",
   },
-] as const satisfies readonly TeamRecord[];
+];

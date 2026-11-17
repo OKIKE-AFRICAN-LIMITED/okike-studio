@@ -54,7 +54,7 @@ export function PagesCmsManager({
     setIsSaving(true);
     setSaveMessage(null);
 
-    let pageKey = activeTab;
+    const pageKey = activeTab;
     let payload: Record<string, unknown> = {};
 
     if (activeTab === "home") payload = home as unknown as Record<string, unknown>;

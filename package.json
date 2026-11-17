@@ -7,7 +7,8 @@
     "build": "next build",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate:portfolio": "node scripts/migrate-from-old-site.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

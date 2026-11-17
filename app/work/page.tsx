@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClosingCta } from "@/components/home/closing-cta";
-import { WorkProjectCard } from "@/components/work/work-project-card";
+import { WorkInteractiveGallery } from "@/components/work/work-interactive-gallery";
 import { getStudioProjects } from "@/lib/cms";
 
 export const metadata: Metadata = {
@@ -11,64 +11,34 @@ export const metadata: Metadata = {
 
 export default async function WorkPage() {
   const projects = await getStudioProjects();
-  const [featuredProject, ...pairedProjects] = projects;
-
-  // Chunk paired projects into pairs of 2
-  const pairedChunks: (typeof pairedProjects)[] = [];
-  for (let i = 0; i < pairedProjects.length; i += 2) {
-    pairedChunks.push(pairedProjects.slice(i, i + 2));
-  }
-
-  const maxSeq = String(projects.length).padStart(2, "0");
 
   return (
     <>
       <section className="bg-[#0e0e0e] text-[#f5f5f0]" aria-labelledby="work-heading">
         <div className="mx-auto flex w-full max-w-site flex-col gap-6 px-5 py-10 md:px-10 md:py-14 lg:gap-8 lg:px-14 lg:pt-[72px] lg:pb-16">
-          <p data-gsap="work-page-eyebrow" className="text-[12px] font-medium tracking-[0.5px] text-[#e3ed33]">THE STUDIO / SELECTED WORK</p>
-          <h1 id="work-heading" data-gsap="work-page-heading" className="origin-left text-[96px]/[96px] font-extrabold tracking-[-5px] will-change-transform lg:text-[240px]/[.92] lg:tracking-[-9.6px]">WORK.</h1>
-          <div data-gsap="work-page-subheading" className="text-[18px]/[26px] text-[#a3a39e] lg:text-[24px] lg:leading-normal">
+          <p data-gsap="work-page-eyebrow" className="text-[12px] font-medium tracking-[0.5px] text-[#e3ed33]">
+            THE STUDIO / SELECTED WORK
+          </p>
+          <h1
+            id="work-heading"
+            data-gsap="work-page-heading"
+            className="origin-left text-[96px]/[96px] font-extrabold tracking-[-5px] will-change-transform lg:text-[240px]/[.92] lg:tracking-[-9.6px]"
+          >
+            WORK.
+          </h1>
+          <div
+            data-gsap="work-page-subheading"
+            className="text-[18px]/[26px] text-[#a3a39e] lg:text-[24px] lg:leading-normal"
+          >
             <p>Identity. Experience. Engineering.</p>
             <p>A closer look at what we make.</p>
           </div>
         </div>
       </section>
 
-      <section className="bg-white text-black" aria-label="Selected project gallery">
-        <div className="mx-auto flex w-full max-w-site flex-col gap-9 px-5 py-12 md:px-10 md:py-14 lg:gap-16 lg:px-14 lg:pt-14 lg:pb-20">
-          <div data-gsap="work-index-bar" className="hidden items-start justify-between border-b border-[#ccccc7] pb-6 text-[12px] font-medium leading-normal lg:flex">
-            <p>PROJECT INDEX / 01–{maxSeq}</p>
-            <p>BRAND / DIGITAL / PRODUCT</p>
-          </div>
-
-          {featuredProject && (
-            <WorkProjectCard
-              project={featuredProject}
-              displayTitle={`Project ${featuredProject.sequence}`}
-              variant="featured"
-            />
-          )}
-
-          {pairedChunks.map((chunk, idx) => (
-            <div key={idx} className="flex flex-col gap-9 md:flex-row md:items-start md:gap-6 lg:gap-10">
-              {chunk[0] && (
-                <WorkProjectCard
-                  project={chunk[0]}
-                  displayTitle={`Project ${chunk[0].sequence}`}
-                  variant="paired"
-                  position="first"
-                />
-              )}
-              {chunk[1] && (
-                <WorkProjectCard
-                  project={chunk[1]}
-                  displayTitle={`Project ${chunk[1].sequence}`}
-                  variant="paired"
-                  position="second"
-                />
-              )}
-            </div>
-          ))}
+      <section className="bg-[#f5f5f0] text-[#0e0e0e]" aria-label="Selected project gallery">
+        <div className="mx-auto flex w-full max-w-site flex-col gap-9 px-5 py-12 md:px-10 md:py-14 lg:gap-12 lg:px-14 lg:pt-14 lg:pb-20">
+          <WorkInteractiveGallery projects={projects} />
         </div>
       </section>
 

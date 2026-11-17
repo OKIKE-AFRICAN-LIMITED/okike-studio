@@ -485,6 +485,51 @@ export interface Database {
         };
         Relationships: [];
       };
+      project_feedback: {
+        Row: {
+          id: string;
+          project_id: string | null;
+          deliverable_id: string | null;
+          client_id: string | null;
+          author_email: string;
+          author_name: string | null;
+          feedback_type: string;
+          priority: string;
+          message: string;
+          reference_url: string | null;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id?: string | null;
+          deliverable_id?: string | null;
+          client_id?: string | null;
+          author_email: string;
+          author_name?: string | null;
+          feedback_type?: string;
+          priority?: string;
+          message: string;
+          reference_url?: string | null;
+          status?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          project_id?: string | null;
+          deliverable_id?: string | null;
+          client_id?: string | null;
+          author_email?: string;
+          author_name?: string | null;
+          feedback_type?: string;
+          priority?: string;
+          message?: string;
+          reference_url?: string | null;
+          status?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

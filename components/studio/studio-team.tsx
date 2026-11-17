@@ -3,7 +3,7 @@ import { studioTeam, type TeamRecord } from "@/lib/team";
 
 function TeamEntry({ member }: { member: TeamRecord }) {
   return (
-    <article data-placeholder={member.placeholder || undefined} className="contents">
+    <article className="contents">
       <div className="relative h-[300px] w-full overflow-hidden md:h-[400px] lg:h-[460px]">
         <Image src={member.image} alt={member.imageAlt} fill sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) calc(100vw - 80px), min(1328px, calc(100vw - 112px))" className="object-cover object-center" />
       </div>

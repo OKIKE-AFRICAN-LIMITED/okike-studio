@@ -3,7 +3,19 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { type SelectedProject } from "@/lib/projects";
+import {
+  inferProjectCategories,
+  type CanonicalCategory,
+  type GalleryScreen,
+  type SelectedProject,
+} from "@/lib/projects";
+
+const CATEGORY_CHOICES: ReadonlyArray<{ id: CanonicalCategory; label: string }> = [
+  { id: "brand", label: "Branding" },
+  { id: "ui", label: "UI / Figma" },
+  { id: "websites", label: "Websites" },
+  { id: "automation", label: "Automation & Tools" },
+];
 import {
   Plus,
   Check,
@@ -67,6 +79,13 @@ export function PortfolioManager({
   const [experience, setExperience] = useState("");
   const [outcome, setOutcome] = useState("");
   const [outcomeMetrics, setOutcomeMetrics] = useState("");
+  const [categories, setCategories] = useState<CanonicalCategory[]>(["websites"]);
+  const [stackInput, setStackInput] = useState("Figma UI, Next.js, Supabase");
+  const [figmaEmbedUrl, setFigmaEmbedUrl] = useState("");
+  const [liveUrl, setLiveUrl] = useState("");
+  const [gallery, setGallery] = useState<GalleryScreen[]>([]);
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   // Upload States
   const [isUploadingImage, setIsUploadingImage] = useState(false);
@@ -102,6 +121,52 @@ export function PortfolioManager({
     } finally {
       setIsUploadingImage(false);
     }
+  };
+
+  const handleGalleryUpload = async (file: File) => {
+    if (!file) return;
+    setIsUploadingGallery(true);
+    setUploadError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Upload failed");
+      }
+
+      const cleanLabel = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+      setGallery((prev) => [
+        ...prev,
+        {
+          id: `screen-${Date.now()}`,
+          url: data.url,
+          caption: cleanLabel || "UI Screen",
+          type: "ui",
+        },
+      ]);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to upload screen";
+      setUploadError(msg);
+    } finally {
+      setIsUploadingGallery(false);
+    }
+  };
+
+  const toggleCategory = (cat: CanonicalCategory) => {
+    setCategories((prev) => {
+      if (prev.includes(cat)) {
+        return prev.length > 1 ? prev.filter((c) => c !== cat) : prev;
+      }
+      return [...prev, cat];
+    });
   };
 
   // Lock background scroll when modal is open so wheel events target only modal
@@ -147,6 +212,11 @@ export function PortfolioManager({
       setExperience(proj.caseStudy?.experience || "");
       setOutcome(proj.caseStudy?.outcome?.[0] || "");
       setOutcomeMetrics(proj.caseStudy?.outcome?.[1] || "");
+      setCategories(inferProjectCategories(proj));
+      setStackInput((proj.stack || []).join(", "));
+      setFigmaEmbedUrl(proj.caseStudy?.figmaEmbedUrl || "");
+      setLiveUrl(proj.caseStudy?.liveUrl || "");
+      setGallery(proj.caseStudy?.gallery ? [...proj.caseStudy.gallery] : []);
     } else {
       const nextSeq = String(projects.length + 1).padStart(2, "0");
       const defaultSlug = `project-${nextSeq}`;
@@ -155,11 +225,11 @@ export function PortfolioManager({
         sequence: nextSeq,
         year: "2026",
         title: "NEW VENTURE",
-        disciplines: "STRATEGY / IDENTITY / DIGITAL",
+        disciplines: "BRANDING / UI / WEBSITES",
         image: "/work/koro.png",
         imageAlt: "Hands arranging brand identity architecture",
-        placeholder: true,
         featured: false,
+        categories: ["brand", "ui", "websites"],
         href: `/work/${defaultSlug}` as SelectedProject["href"],
       };
 
@@ -169,7 +239,7 @@ export function PortfolioManager({
       setHref(`/work/${defaultSlug}`);
       setUseCustomHref(false);
       setTitle("NEW VENTURE");
-      setDisciplines("STRATEGY / IDENTITY / DIGITAL");
+      setDisciplines("BRANDING / UI / WEBSITES");
       setYear("2026");
       setSequence(nextSeq);
       setImage("/work/koro.png");
@@ -186,6 +256,11 @@ export function PortfolioManager({
       setExperience("A structured design language built on Next.js and GSAP animation layers.");
       setOutcome("Elevated global valuation, tripling qualified partner inquiries.");
       setOutcomeMetrics("100% lighthouse score and accelerated market conversion.");
+      setCategories(["brand", "ui", "websites"]);
+      setStackInput("Figma UI, Next.js, Supabase");
+      setFigmaEmbedUrl("");
+      setLiveUrl("");
+      setGallery([]);
     }
   };
 
@@ -204,21 +279,26 @@ export function PortfolioManager({
 
     const finalHref = useCustomHref && href.trim() ? href.trim() : `/work/${cleanSlug}`;
 
+    const parsedStack = stackInput
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     const updatedCaseStudy = {
       slug: cleanSlug,
       caseNumber: sequence,
-      displayTitle: `PROJECT ${sequence}`,
-      metadataTitle: `${title} | OKIKE Studio`,
+      displayTitle: title.toUpperCase(),
+      metadataTitle: `${title} Case Study | OKIKE Studio`,
       introduction: [
         introLine1 || `${disciplines}.`,
         introLine2 || "A crafted digital experience from strategy to final launch.",
       ] as const,
-      previewNotice: "VERIFIED CASE STUDY · OKIKE Studio",
+      previewNotice: "SELECTED CASE STUDY · OKIKE STUDIO",
       coverAlt: imageAlt || title,
       facts: {
-        client: client || "[Client]",
-        sector: sector || "[Industry]",
-        scope: scope || "[Scope]",
+        client: client || "Studio Partner",
+        sector: sector || "Digital Venture",
+        scope: scope || "Strategy, identity, website",
         year: year || "2026",
       },
       question: [
@@ -231,7 +311,9 @@ export function PortfolioManager({
         outcome || "Measurable outcomes and business transformations.",
         outcomeMetrics || "Demonstrated client satisfaction and metrics.",
       ] as const,
-      placeholder: true as const,
+      figmaEmbedUrl: figmaEmbedUrl.trim() || undefined,
+      liveUrl: liveUrl.trim() || undefined,
+      gallery: gallery.length > 0 ? gallery : undefined,
     };
 
     const updated: SelectedProject = {
@@ -244,6 +326,8 @@ export function PortfolioManager({
       image,
       imageAlt,
       featured,
+      categories,
+      stack: parsedStack.length > 0 ? parsedStack : undefined,
       href: finalHref as SelectedProject["href"],
       caseStudy: updatedCaseStudy,
     };
@@ -604,6 +688,47 @@ export function PortfolioManager({
                     />
                   </div>
 
+                  {/* Multi-Tag Segmentation & Tech Stack */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border border-ink/15 bg-paper/30 p-4">
+                    <div>
+                      <label className="block text-[11px] uppercase text-ink font-extrabold tracking-wider mb-2">
+                        Portfolio Filter Segments (Select all that apply)
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {CATEGORY_CHOICES.map((choice) => {
+                          const active = categories.includes(choice.id);
+                          return (
+                            <button
+                              key={choice.id}
+                              type="button"
+                              onClick={() => toggleCategory(choice.id)}
+                              className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
+                                active
+                                  ? "bg-ink text-white border-ink"
+                                  : "bg-paper text-muted border-ink/20 hover:text-ink"
+                              }`}
+                            >
+                              {choice.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] uppercase text-ink font-extrabold tracking-wider mb-2">
+                        Capability &amp; Tech Stack Pills (comma-separated)
+                      </label>
+                      <input
+                        type="text"
+                        value={stackInput}
+                        onChange={(e) => setStackInput(e.target.value)}
+                        placeholder="Figma UI, Brand System, Next.js, n8n Automation"
+                        className="w-full bg-paper border border-ink/20 px-3 py-2 text-xs text-ink font-medium focus:outline-none focus:border-ink"
+                      />
+                    </div>
+                  </div>
+
                   {/* Image Path, Device Upload & Preview */}
                   <div className="border border-ink/15 bg-paper/30 p-4 sm:p-5 space-y-4">
                     <h4 className="text-xs font-extrabold uppercase tracking-wider text-ink flex items-center justify-between">
@@ -909,6 +1034,145 @@ export function PortfolioManager({
                         placeholder="Measurable metrics, growth figures, or conversion impact."
                         className="w-full bg-paper border border-ink/20 p-3 text-xs text-ink leading-relaxed"
                       />
+                    </div>
+                  </div>
+
+                  {/* Figma Embed, Live URL & Multi-Screen UI/Brand Gallery */}
+                  <div className="border border-ink/15 bg-paper/30 p-4 sm:p-5 space-y-5">
+                    <div>
+                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-ink">
+                        Figma UI Prototype, Live Tool &amp; Screen Gallery
+                      </h4>
+                      <p className="text-[11px] text-muted mt-0.5">
+                        Embed an interactive Figma file/prototype or upload UI screens, brand identity boards, and automation diagrams.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[11px] uppercase text-muted font-bold tracking-wider mb-1">
+                          Figma File / Prototype Share URL
+                        </label>
+                        <input
+                          type="url"
+                          value={figmaEmbedUrl}
+                          onChange={(e) => setFigmaEmbedUrl(e.target.value)}
+                          placeholder="https://www.figma.com/proto/..."
+                          className="w-full bg-paper border border-ink/20 px-3 py-2 text-xs text-ink font-mono focus:outline-none focus:border-ink"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] uppercase text-muted font-bold tracking-wider mb-1">
+                          Live Website / Automated Tool URL
+                        </label>
+                        <input
+                          type="url"
+                          value={liveUrl}
+                          onChange={(e) => setLiveUrl(e.target.value)}
+                          placeholder="https://your-live-product.com"
+                          className="w-full bg-paper border border-ink/20 px-3 py-2 text-xs text-ink font-mono focus:outline-none focus:border-ink"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] uppercase text-muted font-bold tracking-wider">
+                          UI &amp; Brand Gallery Screens ({gallery.length})
+                        </span>
+                        <div>
+                          <input
+                            ref={galleryInputRef}
+                            type="file"
+                            accept="image/png, image/jpeg, image/webp, image/svg+xml"
+                            className="hidden"
+                            onChange={(e) => {
+                              if (e.target.files && e.target.files[0]) {
+                                handleGalleryUpload(e.target.files[0]);
+                                e.target.value = "";
+                              }
+                            }}
+                          />
+                          <button
+                            type="button"
+                            disabled={isUploadingGallery}
+                            onClick={() => galleryInputRef.current?.click()}
+                            className="inline-flex items-center gap-1.5 bg-ink text-white hover:bg-lime hover:text-ink px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-50"
+                          >
+                            {isUploadingGallery ? (
+                              <>
+                                <Loader2 className="h-3 w-3 animate-spin" />
+                                <span>Uploading...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Upload className="h-3 w-3" />
+                                <span>Add UI / Brand Screen</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      {gallery.length > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {gallery.map((item, idx) => (
+                            <div
+                              key={item.id}
+                              className="flex items-start gap-3 border border-ink/15 bg-surface p-2.5"
+                            >
+                              <div className="relative h-16 w-24 shrink-0 bg-paper border border-ink/10 overflow-hidden">
+                                <Image
+                                  src={item.url}
+                                  alt={item.caption}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0 space-y-1.5">
+                                <input
+                                  type="text"
+                                  value={item.caption}
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    setGallery((prev) =>
+                                      prev.map((g, i) => (i === idx ? { ...g, caption: val } : g))
+                                    );
+                                  }}
+                                  placeholder="Screen caption"
+                                  className="w-full bg-paper border border-ink/15 px-2 py-1 text-[11px] text-ink"
+                                />
+                                <div className="flex items-center justify-between gap-2">
+                                  <select
+                                    value={item.type || "ui"}
+                                    onChange={(e) => {
+                                      const val = e.target.value as GalleryScreen["type"];
+                                      setGallery((prev) =>
+                                        prev.map((g, i) => (i === idx ? { ...g, type: val } : g))
+                                      );
+                                    }}
+                                    className="bg-paper border border-ink/15 px-2 py-0.5 text-[10px] font-bold uppercase text-ink"
+                                  >
+                                    <option value="ui">UI Screen</option>
+                                    <option value="brand">Brand Board</option>
+                                    <option value="automation">Automation Flow</option>
+                                    <option value="mobile">Mobile UI</option>
+                                  </select>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setGallery((prev) => prev.filter((_, i) => i !== idx))
+                                    }
+                                    className="text-[10px] font-bold text-red-600 hover:text-red-800 uppercase cursor-pointer"
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -62,19 +62,28 @@ export async function getStudioProjects(): Promise<SelectedProject[]> {
       .order("sort_order", { ascending: true });
 
     if (!error && data && data.length > 0) {
-      return data.map((row) => ({
-        id: row.id,
-        sequence: row.sequence,
-        year: row.year,
-        title: row.title,
-        disciplines: row.disciplines,
-        image: row.image,
-        imageAlt: row.image_alt,
-        href: (row.href as SelectedProject["href"]) || undefined,
-        featured: row.featured,
-        placeholder: true as const,
-        caseStudy: (row.case_study as unknown as SelectedProject["caseStudy"]) || undefined,
-      }));
+      return data.map((row) => {
+        const rawCase = row.case_study as unknown as
+          | (NonNullable<SelectedProject["caseStudy"]> & {
+              categories?: SelectedProject["categories"];
+              stack?: SelectedProject["stack"];
+            })
+          | null;
+        return {
+          id: row.id,
+          sequence: row.sequence,
+          year: row.year,
+          title: row.title,
+          disciplines: row.disciplines,
+          image: row.image,
+          imageAlt: row.image_alt,
+          href: (row.href as SelectedProject["href"]) || undefined,
+          featured: row.featured,
+          categories: rawCase?.categories,
+          stack: rawCase?.stack,
+          caseStudy: rawCase || undefined,
+        };
+      });
     }
   } catch {
     // Fall back to local file / defaults
@@ -126,7 +135,11 @@ export async function saveStudioProject(
       href: project.href,
       featured: project.featured || false,
       is_published: true,
-      case_study: project.caseStudy as unknown as import("@/lib/supabase/types").Json,
+      case_study: {
+        ...(project.caseStudy || {}),
+        ...(project.categories ? { categories: project.categories } : {}),
+        ...(project.stack ? { stack: project.stack } : {}),
+      } as unknown as import("@/lib/supabase/types").Json,
       updated_at: new Date().toISOString(),
     });
 
