@@ -1,11 +1,98 @@
 [
   {
+    "id": "datadom",
+    "sequence": "01",
+    "year": "2026",
+    "title": "datadom",
+    "disciplines": "VENTURE STRATEGY / BRAND / PRODUCT",
+    "image": "/work/2-variant-2-1-jpg-1792276248462.jpeg",
+    "imageAlt": "2. VARIANT 2 (1).jpg",
+    "href": "https://datadom.vercel.app/",
+    "featured": true,
+    "caseStudy": {
+      "slug": "datadom",
+      "facts": {
+        "year": "2026",
+        "scope": "Strategy, identity, website",
+        "client": "OBED PHILIP",
+        "sector": "DATA ANALYSIS"
+      },
+      "outcome": [
+        "[Summarise what was delivered and what changed for the client or their customers.]",
+        "[Add verified results with a source and time period, or describe observable improvements when metrics are unavailable.]"
+      ],
+      "coverAlt": "2. VARIANT 2 (1).jpg",
+      "question": [
+        "[Introduce the business and the people it serves. Explain what needed to change, why it mattered, and the constraints shaping the project.]",
+        "[State the agreed goal in one clear sentence. Keep the focus on the client’s problem.]"
+      ],
+      "caseNumber": "01",
+      "experience": "[Describe the key user journey and show how the design supports it. Replace the preview below with final project screens.]",
+      "placeholder": true,
+      "displayTitle": "PROJECT 01",
+      "introduction": [
+        "Brand identity and digital experience.",
+        "A project story, from the first question to the final system."
+      ],
+      "metadataTitle": "datadom | OKIKE Studio",
+      "previewNotice": "VERIFIED CASE STUDY · OKIKE Studio",
+      "designDirection": "[Explain the central design decision and how it connects the identity, content and digital experience.]"
+    }
+  },
+  {
+    "id": "coach-ziri",
+    "sequence": "02",
+    "year": "2026",
+    "title": "COACH ZIRI",
+    "disciplines": "POSITIONING / IDENTITY / DIGITAL",
+    "image": "/work/icon-512-1794946730754.png",
+    "imageAlt": "A collaborative team working in a bright open studio",
+    "href": "/work/coach-ziri",
+    "featured": false,
+    "categories": [
+      "brand",
+      "websites"
+    ],
+    "caseStudy": {
+      "slug": "coach-ziri",
+      "facts": {
+        "year": "2026",
+        "scope": "Strategy, identity, website",
+        "client": "Studio Partner",
+        "sector": "Digital Venture"
+      },
+      "outcome": [
+        "Measurable outcomes and business transformations.",
+        "Demonstrated client satisfaction and metrics."
+      ],
+      "coverAlt": "A collaborative team working in a bright open studio",
+      "question": [
+        "Strategic brief and design problem to solve.",
+        "Clear goal formulated with client stakeholders."
+      ],
+      "caseNumber": "02",
+      "categories": [
+        "brand",
+        "websites"
+      ],
+      "experience": "Digital walkthrough and interactive touchpoints.",
+      "displayTitle": "COACH ZIRI",
+      "introduction": [
+        "POSITIONING / IDENTITY / DIGITAL.",
+        "A crafted digital experience from strategy to final launch."
+      ],
+      "metadataTitle": "COACH ZIRI Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Design direction and concept explanation."
+    }
+  },
+  {
     "id": "okike-studio",
     "sequence": "01",
     "year": "2026",
     "title": "OKIKE STUDIO",
     "disciplines": "WEBSITES",
-    "image": "/work/migrated/okike-studio.png",
+    "image": "/work/logo-symbol-1794947187146.png",
     "imageAlt": "OKIKE STUDIO project showcase",
     "href": "/work/okike-studio",
     "featured": true,
@@ -26,7 +113,7 @@
         "Migrated from the OKIKE Enterprises flagship archive."
       ],
       "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "OKIKE STUDIO showcase visual",
+      "coverAlt": "OKIKE STUDIO project showcase",
       "facts": {
         "client": "OKIKE STUDIO",
         "sector": "Digital & Brand",
@@ -65,32 +152,39 @@
     ],
     "caseStudy": {
       "slug": "ui-okike-studio",
-      "caseNumber": "02",
-      "displayTitle": "UI OKIKE STUDIO",
-      "metadataTitle": "UI OKIKE STUDIO Case Study | OKIKE Studio",
-      "introduction": [
-        "UI crafted by OKIKE Studio.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "UI OKIKE STUDIO showcase visual",
       "facts": {
-        "client": "UI OKIKE STUDIO",
-        "sector": "Digital & Brand",
+        "year": "2026",
         "scope": "UI",
-        "year": "2026"
+        "client": "UI OKIKE STUDIO",
+        "sector": "Digital & Brand"
       },
-      "question": [
-        "UI OKIKE STUDIO partnered with OKIKE Studio to build a clear, durable digital presence and product experience.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "Brand Identity",
+        "Next.js"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "Designed and engineered with fast performance, clear user journeys, and maintainable architecture.",
       "outcome": [
         "Delivered UI OKIKE STUDIO with full brand and technical alignment.",
         "Live reference: https://www.figma.com/file/HZOZk5lnnEtPWdSg03IE6l?type=design"
       ],
-      "figmaEmbedUrl": "https://www.figma.com/file/HZOZk5lnnEtPWdSg03IE6l?type=design"
+      "coverAlt": "UI OKIKE STUDIO showcase visual",
+      "question": [
+        "UI OKIKE STUDIO partnered with OKIKE Studio to build a clear, durable digital presence and product experience.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "02",
+      "categories": [
+        "ui"
+      ],
+      "experience": "Designed and engineered with fast performance, clear user journeys, and maintainable architecture.",
+      "displayTitle": "UI OKIKE STUDIO",
+      "introduction": [
+        "UI crafted by OKIKE Studio.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "figmaEmbedUrl": "https://www.figma.com/file/HZOZk5lnnEtPWdSg03IE6l?type=design",
+      "metadataTitle": "UI OKIKE STUDIO Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -113,32 +207,40 @@
     ],
     "caseStudy": {
       "slug": "ui-brandorax",
-      "caseNumber": "03",
-      "displayTitle": "UI BRANDORAX",
-      "metadataTitle": "UI Brandorax Case Study | OKIKE Studio",
-      "introduction": [
-        "BRAND / UI crafted by OKIKE Studio.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "UI Brandorax showcase visual",
       "facts": {
-        "client": "UI Brandorax",
-        "sector": "Digital & Brand",
+        "year": "2026",
         "scope": "BRAND / UI",
-        "year": "2026"
+        "client": "UI Brandorax",
+        "sector": "Digital & Brand"
       },
-      "question": [
-        "UI Brandorax partnered with OKIKE Studio to build a clear, durable digital presence and product experience.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "Brand Identity",
+        "Next.js"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "Designed and engineered with fast performance, clear user journeys, and maintainable architecture.",
       "outcome": [
         "Delivered UI Brandorax with full brand and technical alignment.",
         "Live reference: https://www.figma.com/file/tjPnQ8ouXqLyB8MmIDJSPp?type=design"
       ],
-      "figmaEmbedUrl": "https://www.figma.com/file/tjPnQ8ouXqLyB8MmIDJSPp?type=design"
+      "coverAlt": "UI Brandorax showcase visual",
+      "question": [
+        "UI Brandorax partnered with OKIKE Studio to build a clear, durable digital presence and product experience.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "03",
+      "categories": [
+        "brand",
+        "ui"
+      ],
+      "experience": "Designed and engineered with fast performance, clear user journeys, and maintainable architecture.",
+      "displayTitle": "UI BRANDORAX",
+      "introduction": [
+        "BRAND / UI crafted by OKIKE Studio.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "figmaEmbedUrl": "https://www.figma.com/file/tjPnQ8ouXqLyB8MmIDJSPp?type=design",
+      "metadataTitle": "UI Brandorax Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -160,32 +262,39 @@
     ],
     "caseStudy": {
       "slug": "data-dom",
-      "caseNumber": "04",
-      "displayTitle": "DATA DOM",
-      "metadataTitle": "DATA DOM Case Study | OKIKE Studio",
-      "introduction": [
-        "Enterprise-grade data science, machine learning consulting, and specialized training. We transform complex data architectures into strategic intelligence.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "DATA DOM showcase visual",
       "facts": {
-        "client": "DATA DOM",
-        "sector": "DATA-DOM",
+        "year": "2026",
         "scope": "DATA-DOM",
-        "year": "2026"
+        "client": "DATA DOM",
+        "sector": "DATA-DOM"
       },
-      "question": [
-        "Enterprise-grade data science, machine learning consulting, and specialized training. We transform complex data architectures into strategic intelligence.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "DATA-DOM"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "Enterprise-grade data science, machine learning consulting, and specialized training. We transform complex data architectures into strategic intelligence.",
+      "liveUrl": "https://datadom.vercel.app/",
       "outcome": [
         "Delivered DATA DOM with full brand and technical alignment.",
         "Live reference: https://datadom.vercel.app/"
       ],
-      "liveUrl": "https://datadom.vercel.app/"
+      "coverAlt": "DATA DOM showcase visual",
+      "question": [
+        "Enterprise-grade data science, machine learning consulting, and specialized training. We transform complex data architectures into strategic intelligence.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "04",
+      "categories": [
+        "websites",
+        "automation"
+      ],
+      "experience": "Enterprise-grade data science, machine learning consulting, and specialized training. We transform complex data architectures into strategic intelligence.",
+      "displayTitle": "DATA DOM",
+      "introduction": [
+        "Enterprise-grade data science, machine learning consulting, and specialized training. We transform complex data architectures into strategic intelligence.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "metadataTitle": "DATA DOM Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -206,32 +315,38 @@
     ],
     "caseStudy": {
       "slug": "code-garden",
-      "caseNumber": "05",
-      "displayTitle": "CODE GARDEN",
-      "metadataTitle": "CODE GARDEN Case Study | OKIKE Studio",
-      "introduction": [
-        "A digital agency that teaches on ICT related fields",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "CODE GARDEN showcase visual",
       "facts": {
-        "client": "CODE GARDEN",
-        "sector": "CODE-GARDEN",
+        "year": "2026",
         "scope": "CODE-GARDEN",
-        "year": "2026"
+        "client": "CODE GARDEN",
+        "sector": "CODE-GARDEN"
       },
-      "question": [
-        "A digital agency that teaches on ICT related fields",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "CODE-GARDEN"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "A digital agency that teaches on ICT related fields",
+      "liveUrl": "https://codegarden2-0.vercel.app/",
       "outcome": [
         "Delivered CODE GARDEN with full brand and technical alignment.",
         "Live reference: https://codegarden2-0.vercel.app/"
       ],
-      "liveUrl": "https://codegarden2-0.vercel.app/"
+      "coverAlt": "CODE GARDEN showcase visual",
+      "question": [
+        "A digital agency that teaches on ICT related fields",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "05",
+      "categories": [
+        "websites"
+      ],
+      "experience": "A digital agency that teaches on ICT related fields",
+      "displayTitle": "CODE GARDEN",
+      "introduction": [
+        "A digital agency that teaches on ICT related fields",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "metadataTitle": "CODE GARDEN Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -252,32 +367,38 @@
     ],
     "caseStudy": {
       "slug": "auktie",
-      "caseNumber": "06",
-      "displayTitle": "AUKTIE",
-      "metadataTitle": "AUKTIE Case Study | OKIKE Studio",
-      "introduction": [
-        "AUKTIE brings together experienced professionals, industry experts, academic partners, and international specialists to support organisations in achieving meaningful and lasting transformation.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "AUKTIE showcase visual",
       "facts": {
-        "client": "AUKTIE",
-        "sector": "AUKTIE",
+        "year": "2026",
         "scope": "AUKTIE",
-        "year": "2026"
+        "client": "AUKTIE",
+        "sector": "AUKTIE"
       },
-      "question": [
-        "AUKTIE brings together experienced professionals, industry experts, academic partners, and international specialists to support organisations in achieving meaningful and lasting transformation.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "AUKTIE"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "AUKTIE brings together experienced professionals, industry experts, academic partners, and international specialists to support organisations in achieving meaningful and lasting transformation.",
+      "liveUrl": "https://auktie.com/",
       "outcome": [
         "Delivered AUKTIE with full brand and technical alignment.",
         "Live reference: https://auktie.com/"
       ],
-      "liveUrl": "https://auktie.com/"
+      "coverAlt": "AUKTIE showcase visual",
+      "question": [
+        "AUKTIE brings together experienced professionals, industry experts, academic partners, and international specialists to support organisations in achieving meaningful and lasting transformation.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "06",
+      "categories": [
+        "websites"
+      ],
+      "experience": "AUKTIE brings together experienced professionals, industry experts, academic partners, and international specialists to support organisations in achieving meaningful and lasting transformation.",
+      "displayTitle": "AUKTIE",
+      "introduction": [
+        "AUKTIE brings together experienced professionals, industry experts, academic partners, and international specialists to support organisations in achieving meaningful and lasting transformation.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "metadataTitle": "AUKTIE Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -298,32 +419,38 @@
     ],
     "caseStudy": {
       "slug": "lydia-diaries",
-      "caseNumber": "07",
-      "displayTitle": "LYDIA DIARIES",
-      "metadataTitle": "LYDIA DIARIES Case Study | OKIKE Studio",
-      "introduction": [
-        "This is a space where learning feels less like a lecture and more like a conversation over a cup of coffee. A place where curiosity is always welcome and no question is too small.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "LYDIA DIARIES showcase visual",
       "facts": {
-        "client": "LYDIA DIARIES",
-        "sector": "Lydia-Diaries",
+        "year": "2026",
         "scope": "Lydia-Diaries",
-        "year": "2026"
+        "client": "LYDIA DIARIES",
+        "sector": "Lydia-Diaries"
       },
-      "question": [
-        "This is a space where learning feels less like a lecture and more like a conversation over a cup of coffee. A place where curiosity is always welcome and no question is too small.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "Lydia-Diaries"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "This is a space where learning feels less like a lecture and more like a conversation over a cup of coffee. A place where curiosity is always welcome and no question is too small.",
+      "liveUrl": "https://www.lydiadiaries.com",
       "outcome": [
         "Delivered LYDIA DIARIES with full brand and technical alignment.",
         "Live reference: https://www.lydiadiaries.com"
       ],
-      "liveUrl": "https://www.lydiadiaries.com"
+      "coverAlt": "LYDIA DIARIES showcase visual",
+      "question": [
+        "This is a space where learning feels less like a lecture and more like a conversation over a cup of coffee. A place where curiosity is always welcome and no question is too small.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "07",
+      "categories": [
+        "websites"
+      ],
+      "experience": "This is a space where learning feels less like a lecture and more like a conversation over a cup of coffee. A place where curiosity is always welcome and no question is too small.",
+      "displayTitle": "LYDIA DIARIES",
+      "introduction": [
+        "This is a space where learning feels less like a lecture and more like a conversation over a cup of coffee. A place where curiosity is always welcome and no question is too small.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "metadataTitle": "LYDIA DIARIES Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -346,32 +473,40 @@
     ],
     "caseStudy": {
       "slug": "krait",
-      "caseNumber": "08",
-      "displayTitle": "KRAIT",
-      "metadataTitle": "KRAIT Case Study | OKIKE Studio",
-      "introduction": [
-        "Naira in your bank account in under 5 minutes.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "KRAIT showcase visual",
       "facts": {
-        "client": "KRAIT",
-        "sector": "KRAIT",
+        "year": "2026",
         "scope": "KRAIT",
-        "year": "2026"
+        "client": "KRAIT",
+        "sector": "KRAIT"
       },
-      "question": [
-        "Naira in your bank account in under 5 minutes.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "KRAIT"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "Naira in your bank account in under 5 minutes.",
+      "liveUrl": "https://krait-bot.vercel.app/",
       "outcome": [
         "Delivered KRAIT with full brand and technical alignment.",
         "Live reference: https://krait-bot.vercel.app/"
       ],
-      "liveUrl": "https://krait-bot.vercel.app/"
+      "coverAlt": "KRAIT showcase visual",
+      "question": [
+        "Naira in your bank account in under 5 minutes.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "08",
+      "categories": [
+        "brand",
+        "websites",
+        "automation"
+      ],
+      "experience": "Naira in your bank account in under 5 minutes.",
+      "displayTitle": "KRAIT",
+      "introduction": [
+        "Naira in your bank account in under 5 minutes.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "metadataTitle": "KRAIT Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -393,32 +528,39 @@
     ],
     "caseStudy": {
       "slug": "ui-auktie",
-      "caseNumber": "09",
-      "displayTitle": "UI AUKTIE",
-      "metadataTitle": "Ui AUKTIE Case Study | OKIKE Studio",
-      "introduction": [
-        "UI crafted by OKIKE Studio.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "Ui AUKTIE showcase visual",
       "facts": {
-        "client": "Ui AUKTIE",
-        "sector": "Digital & Brand",
+        "year": "2026",
         "scope": "UI",
-        "year": "2026"
+        "client": "Ui AUKTIE",
+        "sector": "Digital & Brand"
       },
-      "question": [
-        "Ui AUKTIE partnered with OKIKE Studio to build a clear, durable digital presence and product experience.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "Brand Identity",
+        "Next.js"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "Designed and engineered with fast performance, clear user journeys, and maintainable architecture.",
       "outcome": [
         "Delivered Ui AUKTIE with full brand and technical alignment.",
         "Live reference: https://www.figma.com/file/aP0hAc7xsW84S0wcfSZIO4?type=design"
       ],
-      "figmaEmbedUrl": "https://www.figma.com/file/aP0hAc7xsW84S0wcfSZIO4?type=design"
+      "coverAlt": "Ui AUKTIE showcase visual",
+      "question": [
+        "Ui AUKTIE partnered with OKIKE Studio to build a clear, durable digital presence and product experience.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "09",
+      "categories": [
+        "ui"
+      ],
+      "experience": "Designed and engineered with fast performance, clear user journeys, and maintainable architecture.",
+      "displayTitle": "UI AUKTIE",
+      "introduction": [
+        "UI crafted by OKIKE Studio.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "figmaEmbedUrl": "https://www.figma.com/file/aP0hAc7xsW84S0wcfSZIO4?type=design",
+      "metadataTitle": "Ui AUKTIE Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -439,32 +581,38 @@
     ],
     "caseStudy": {
       "slug": "belly-chow",
-      "caseNumber": "10",
-      "displayTitle": "BELLY-CHOW",
-      "metadataTitle": "BELLY-CHOW Case Study | OKIKE Studio",
-      "introduction": [
-        "Campus food delivery\n\nOrder food from\ncampus vendors,\ndelivered to you.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "BELLY-CHOW showcase visual",
       "facts": {
-        "client": "BELLY-CHOW",
-        "sector": "BELLY-CHOW",
+        "year": "2026",
         "scope": "BELLY-CHOW",
-        "year": "2026"
+        "client": "BELLY-CHOW",
+        "sector": "BELLY-CHOW"
       },
-      "question": [
-        "Campus food delivery\n\nOrder food from\ncampus vendors,\ndelivered to you.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "BELLY-CHOW"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "Campus food delivery\n\nOrder food from\ncampus vendors,\ndelivered to you.",
+      "liveUrl": "https://www.belly-chow.com.ng/",
       "outcome": [
         "Delivered BELLY-CHOW with full brand and technical alignment.",
         "Live reference: https://www.belly-chow.com.ng/"
       ],
-      "liveUrl": "https://www.belly-chow.com.ng/"
+      "coverAlt": "BELLY-CHOW showcase visual",
+      "question": [
+        "Campus food delivery\n\nOrder food from\ncampus vendors,\ndelivered to you.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "10",
+      "categories": [
+        "websites"
+      ],
+      "experience": "Campus food delivery\n\nOrder food from\ncampus vendors,\ndelivered to you.",
+      "displayTitle": "BELLY-CHOW",
+      "introduction": [
+        "Campus food delivery\n\nOrder food from\ncampus vendors,\ndelivered to you.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "metadataTitle": "BELLY-CHOW Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   },
   {
@@ -485,32 +633,38 @@
     ],
     "caseStudy": {
       "slug": "boot-store",
-      "caseNumber": "11",
-      "displayTitle": "BOOT STORE",
-      "metadataTitle": "BOOT STORE Case Study | OKIKE Studio",
-      "introduction": [
-        "STNBETE GLOBAL RESOURCES is a multidisciplinary organisation committed to leadership development, educational advancement, ministry support, publishing, and strategic consultancy with a strong emphasis on excellence, integrity, and global relevance.",
-        "Migrated from the OKIKE Enterprises flagship archive."
-      ],
-      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
-      "coverAlt": "BOOT STORE showcase visual",
       "facts": {
-        "client": "BOOT STORE",
-        "sector": "STNBETE-GLOBAL",
+        "year": "2026",
         "scope": "STNBETE-GLOBAL",
-        "year": "2026"
+        "client": "BOOT STORE",
+        "sector": "STNBETE-GLOBAL"
       },
-      "question": [
-        "STNBETE GLOBAL RESOURCES is a multidisciplinary organisation committed to leadership development, educational advancement, ministry support, publishing, and strategic consultancy with a strong emphasis on excellence, integrity, and global relevance.",
-        "Establish a cohesive visual system and dependable technical execution built for growth."
+      "stack": [
+        "STNBETE-GLOBAL"
       ],
-      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint.",
-      "experience": "STNBETE GLOBAL RESOURCES is a multidisciplinary organisation committed to leadership development, educational advancement, ministry support, publishing, and strategic consultancy with a strong emphasis on excellence, integrity, and global relevance.",
+      "liveUrl": "https://www.stnbeteglobal.com/",
       "outcome": [
         "Delivered BOOT STORE with full brand and technical alignment.",
         "Live reference: https://www.stnbeteglobal.com/"
       ],
-      "liveUrl": "https://www.stnbeteglobal.com/"
+      "coverAlt": "BOOT STORE showcase visual",
+      "question": [
+        "STNBETE GLOBAL RESOURCES is a multidisciplinary organisation committed to leadership development, educational advancement, ministry support, publishing, and strategic consultancy with a strong emphasis on excellence, integrity, and global relevance.",
+        "Establish a cohesive visual system and dependable technical execution built for growth."
+      ],
+      "caseNumber": "11",
+      "categories": [
+        "websites"
+      ],
+      "experience": "STNBETE GLOBAL RESOURCES is a multidisciplinary organisation committed to leadership development, educational advancement, ministry support, publishing, and strategic consultancy with a strong emphasis on excellence, integrity, and global relevance.",
+      "displayTitle": "BOOT STORE",
+      "introduction": [
+        "STNBETE GLOBAL RESOURCES is a multidisciplinary organisation committed to leadership development, educational advancement, ministry support, publishing, and strategic consultancy with a strong emphasis on excellence, integrity, and global relevance.",
+        "Migrated from the OKIKE Enterprises flagship archive."
+      ],
+      "metadataTitle": "BOOT STORE Case Study | OKIKE Studio",
+      "previewNotice": "SELECTED CASE STUDY · OKIKE STUDIO",
+      "designDirection": "Structured visual hierarchy, purposeful typography, and cohesive system components across every touchpoint."
     }
   }
 ]

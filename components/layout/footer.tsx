@@ -1,13 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { FooterGlobe } from "./footer-globe";
 
 const socialLabels = ["Instagram", "LinkedIn", "X"] as const;
 
 export function Footer() {
   return (
-    <footer id="site-footer" data-gsap="footer" className="bg-[#0e0e0e] text-[#f5f5f0]">
-      <div className="mx-auto w-full max-w-site px-5 pt-10 pb-6 md:px-10 md:py-14 lg:px-14 lg:pt-14 lg:pb-7">
+    <footer id="site-footer" data-gsap="footer" className="relative overflow-hidden bg-[#0e0e0e] text-[#f5f5f0]">
+      <FooterGlobe />
+
+      <div className="relative z-10 mx-auto w-full max-w-site px-5 pt-10 pb-6 md:px-10 md:py-14 lg:px-14 lg:pt-14 lg:pb-7">
         <div className="flex flex-col gap-7 lg:flex-row lg:gap-16">
           <div className="min-h-11 lg:w-18 lg:flex-none">
             <Image src="/footerlogo.png" alt="OKIKE Studio" width={88} height={88} className="size-11" />
@@ -46,7 +49,6 @@ export function Footer() {
           </div>
           <Link href="/#top" className="flex min-h-11 items-center text-[12px]/[18px] text-lime hover:text-white lg:justify-end">Back to top</Link>
         </div>
-
       </div>
     </footer>
   );

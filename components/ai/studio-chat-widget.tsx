@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, X, Send, Bot, ArrowRight, Loader2 } from "lucide-react";
+import { X, Send, Bot, ArrowRight, Loader2 } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -86,7 +87,13 @@ export function StudioChatWidget() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime group-hover:bg-ink opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-lime group-hover:bg-ink"></span>
           </span>
-          <Sparkles className="h-4 w-4" />
+          <Image
+            src="/logo-symbol.png"
+            alt=""
+            width={18}
+            height={18}
+            className="h-[18px] w-[18px] invert transition-all duration-200 group-hover:invert-0"
+          />
           <span className="text-xs uppercase font-extrabold tracking-wider">Studio AI</span>
         </button>
       )}
@@ -98,7 +105,13 @@ export function StudioChatWidget() {
           <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#333] bg-[#141414]">
             <div className="flex items-center gap-2">
               <div className="size-6 bg-lime text-ink flex items-center justify-center font-extrabold text-[11px]">
-                <Sparkles className="h-3.5 w-3.5" />
+                <Image
+                  src="/logo-symbol.png"
+                  alt="OKIKE Studio"
+                  width={15}
+                  height={15}
+                  className="h-[15px] w-[15px]"
+                />
               </div>
               <div>
                 <h3 className="text-xs font-extrabold uppercase tracking-wider text-white">OKIKE Studio AI</h3>
