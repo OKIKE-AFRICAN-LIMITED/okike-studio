@@ -9,8 +9,14 @@ export function Hero({ content }: { content?: HomePageContent["hero"] }) {
   const data = content || defaultHomePageContent.hero;
 
   return (
-    <SectionContainer labelledBy="hero-heading" contentClassName="flex flex-col gap-7 bg-surface py-7! [font-optical-sizing:auto] [font-variation-settings:'wdth'_100] lg:gap-9 lg:py-[44px_32px]! lg:[--page-gutter:56px]">
-      <div className="grid gap-7 lg:grid-cols-[minmax(0,752fr)_minmax(0,536fr)] lg:items-center lg:gap-10">
+    <SectionContainer
+      labelledBy="hero-heading"
+      className="relative overflow-hidden bg-surface"
+      contentClassName="relative flex flex-col gap-7 bg-transparent py-7! [font-optical-sizing:auto] [font-variation-settings:'wdth'_100] lg:gap-9 lg:py-[44px_32px]! lg:[--page-gutter:56px]"
+    >
+      <HeroParticleCanvas />
+
+      <div className="relative z-10 grid gap-7 lg:grid-cols-[minmax(0,752fr)_minmax(0,536fr)] lg:items-center lg:gap-10">
         <div data-gsap="hero-copy" className="flex min-w-0 flex-col items-start gap-6 lg:gap-7">
           <h1 id="hero-heading" className="text-[clamp(48px,14.36vw,56px)]/[.910714] font-extrabold tracking-[-2.5px] md:text-[72px] md:tracking-[-3px] lg:text-[clamp(72px,7.7778vw,112px)] lg:tracking-[-5px]">
             {data.headingLine1}<br />{data.headingLine2}<br />{data.headingLine3}
@@ -29,9 +35,10 @@ export function Hero({ content }: { content?: HomePageContent["hero"] }) {
             </Button>
           </div>
         </div>
-        <HeroParticleCanvas />
+        <div className="h-[290px] w-full lg:h-[480px]" aria-hidden="true" />
       </div>
-      <div data-gsap="hero-rail" className="text-[10px]/[16px] font-medium lg:flex lg:justify-between lg:gap-6 lg:border-t lg:border-[#d1d1cc] lg:pt-5.5 lg:text-eyebrow">
+
+      <div data-gsap="hero-rail" className="relative z-10 text-[10px]/[16px] font-medium lg:flex lg:justify-between lg:gap-6 lg:border-t lg:border-[#d1d1cc] lg:pt-5.5 lg:text-eyebrow">
         <p>{data.railDisciplines}</p>
         <p className="hidden lg:inline">EXPLORE THE STUDIO ↓</p>
       </div>

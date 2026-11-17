@@ -3,94 +3,157 @@
 import { useEffect, useRef } from "react";
 
 interface Particle3D {
-  // Base 3D coordinates
   bx: number;
   by: number;
   bz: number;
-  // Current displaced 3D coordinates
   x: number;
   y: number;
   z: number;
-  // Velocity for spring return
   vx: number;
   vy: number;
   vz: number;
   size: number;
-  isAccent: boolean;
-  layer: number;
+  isCore: boolean;
   phase: number;
 }
 
-function buildArchitecturalParticles(): Particle3D[] {
+/**
+ * Fallback mathematical OKIKE circular emblem particles while image loads.
+ */
+function buildFallbackEmblemParticles(): Particle3D[] {
   const particles: Particle3D[] = [];
+  const step = 11;
+  const maxR = 145;
 
-  // 1. Three stacked isometric-style 3D hollow square frames (nod to Structure Before Scale)
-  const layers = [-85, 0, 85];
-  layers.forEach((yOffset, layerIdx) => {
-    const outer = 125;
-    const inner = 58;
-    const step = 18;
+  for (let y = -maxR; y <= maxR; y += step) {
+    for (let x = -maxR; x <= maxR; x += step) {
+      const r = Math.hypot(x, y);
+      const ax = Math.abs(x);
+      const ay = Math.abs(y);
 
-    for (let x = -outer; x <= outer; x += step) {
-      for (let z = -outer; z <= outer; z += step) {
-        const inHollow = Math.abs(x) < inner && Math.abs(z) < inner;
-        if (inHollow) continue;
+      const inCenter = r <= 34;
+      const inInnerRing = r >= 54 && r <= 82 && ax > 16 && ay > 16;
+      const inOuterRing = r >= 102 && r <= 145 && ax > 28 && ay > 28;
 
-        // Keep particles primarily on edges and top surface for crisp architectural look
-        const isEdge =
-          Math.abs(Math.abs(x) - outer) < step ||
-          Math.abs(Math.abs(z) - outer) < step ||
-          Math.abs(Math.abs(x) - inner) < step ||
-          Math.abs(Math.abs(z) - inner) < step;
+      if (!inCenter && !inInnerRing && !inOuterRing) continue;
 
-        if (!isEdge && Math.random() > 0.35) continue;
-
+      for (const bz of [-14, 0, 14]) {
         particles.push({
           bx: x,
-          by: yOffset,
-          bz: z,
-          x,
-          y: yOffset,
-          z,
+          by: y,
+          bz,
+          x: x * 1.4,
+          y: y * 1.4,
+          z: bz,
           vx: 0,
           vy: 0,
           vz: 0,
-          size: isEdge ? 2.1 : 1.5,
-          isAccent: layerIdx === 0 || isEdge,
-          layer: layerIdx,
+          size: bz === 0 ? 2.4 : 1.8,
+          isCore: bz >= 0,
           phase: Math.random() * Math.PI * 2,
         });
       }
     }
-  });
+  }
+  return particles;
+}
 
-  // 2. Surrounding orbital depth dust for 3D immersion
-  for (let i = 0; i < 160; i++) {
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    const r = 175 + Math.random() * 75;
-    const x = r * Math.sin(phi) * Math.cos(theta);
-    const y = r * Math.cos(phi) * 0.85;
-    const z = r * Math.sin(phi) * Math.sin(theta);
+/**
+ * Samples the actual OKIKE emblem from /navigation/okike-logo.png into 3D particles.
+ */
+function sampleLogoFromImage(img: HTMLImageElement): Particle3D[] {
+  const sampleH = 120;
+  const scale = sampleH / Math.max(1, img.naturalHeight);
+  const sampleW = Math.max(sampleH, Math.round(img.naturalWidth * scale));
 
-    particles.push({
-      bx: x,
-      by: y,
-      bz: z,
-      x,
-      y,
-      z,
-      vx: 0,
-      vy: 0,
-      vz: 0,
-      size: 1 + Math.random() * 1.2,
-      isAccent: Math.random() > 0.65,
-      layer: -1,
-      phase: Math.random() * Math.PI * 2,
-    });
+  const offscreen = document.createElement("canvas");
+  offscreen.width = sampleW;
+  offscreen.height = sampleH;
+  const octx = offscreen.getContext("2d");
+  if (!octx) return buildFallbackEmblemParticles();
+
+  octx.clearRect(0, 0, sampleW, sampleH);
+  octx.drawImage(img, 0, 0, sampleW, sampleH);
+
+  const imgData = octx.getImageData(0, 0, sampleW, sampleH).data;
+
+  // Detect the horizontal end of the left emblem (first empty column gap after emblem pixels)
+  let foundEmblem = false;
+  let emblemEndX = sampleH;
+  for (let x = 0; x < sampleW; x++) {
+    let colHasInk = false;
+    for (let y = 0; y < sampleH; y++) {
+      const idx = (y * sampleW + x) * 4;
+      if (imgData[idx + 3] > 90) {
+        colHasInk = true;
+        break;
+      }
+    }
+    if (colHasInk) {
+      foundEmblem = true;
+    } else if (foundEmblem && x > sampleH * 0.5) {
+      emblemEndX = x;
+      break;
+    }
   }
 
-  return particles;
+  // Find bounding box of emblem pixels
+  let minX = emblemEndX;
+  let maxX = 0;
+  let minY = sampleH;
+  let maxY = 0;
+  for (let y = 0; y < sampleH; y++) {
+    for (let x = 0; x < emblemEndX; x++) {
+      const idx = (y * sampleW + x) * 4;
+      if (imgData[idx + 3] > 90) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  const boxW = Math.max(1, maxX - minX);
+  const boxH = Math.max(1, maxY - minY);
+  const cx = minX + boxW / 2;
+  const cy = minY + boxH / 2;
+  const normScale = 240 / Math.max(boxW, boxH);
+
+  const particles: Particle3D[] = [];
+  const step = 3;
+
+  for (let y = minY; y <= maxY; y += step) {
+    for (let x = minX; x <= maxX; x += step) {
+      const idx = (y * sampleW + x) * 4;
+      const alpha = imgData[idx + 3];
+      if (alpha < 110) continue;
+
+      const bx = (x - cx) * normScale;
+      const by = (y - cy) * normScale;
+
+      const zPlanes = [-14, 0, 14];
+      for (const bz of zPlanes) {
+        if (bz !== 0 && Math.random() > 0.55) continue;
+        particles.push({
+          bx,
+          by,
+          bz,
+          x: bx + (Math.random() - 0.5) * 35,
+          y: by + (Math.random() - 0.5) * 35,
+          z: bz + (Math.random() - 0.5) * 35,
+          vx: 0,
+          vy: 0,
+          vz: 0,
+          size: bz === 0 ? 2.4 : 1.8,
+          isCore: bz >= 0,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+    }
+  }
+
+  return particles.length > 0 ? particles : buildFallbackEmblemParticles();
 }
 
 export function HeroParticleCanvas() {
@@ -102,18 +165,29 @@ export function HeroParticleCanvas() {
     const container = containerRef.current;
     if (!canvas || !container) return;
 
+    // Attach pointer tracking to the full hero <section> so particles never clip or block clicks
+    const interactionTarget = container.closest("section") || container;
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const particles = buildArchitecturalParticles();
+    let particles: Particle3D[] = buildFallbackEmblemParticles();
+    let isDisposed = false;
+
+    const logoImg = new window.Image();
+    logoImg.src = "/navigation/okike-logo.png";
+    logoImg.onload = () => {
+      if (!isDisposed) {
+        particles = sampleLogoFromImage(logoImg);
+      }
+    };
 
     let width = 0;
     let height = 0;
     let dpr = 1;
     let animId = 0;
 
-    // Interactive pointer state (normalized -1 to 1, plus pixel coords)
     const pointer = {
       nx: 0,
       ny: 0,
@@ -123,9 +197,8 @@ export function HeroParticleCanvas() {
       pulse: 0,
     };
 
-    // Smoothed camera rotation
-    let rotY = 0.65;
-    let rotX = 0.52;
+    let rotY = 0;
+    let rotX = 0;
     let time = 0;
 
     const resize = () => {
@@ -142,10 +215,11 @@ export function HeroParticleCanvas() {
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
 
-    const onPointerMove = (e: PointerEvent) => {
+    const onPointerMove = (e: Event) => {
+      const pe = e as PointerEvent;
       const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = pe.clientX - rect.left;
+      const y = pe.clientY - rect.top;
       pointer.px = x;
       pointer.py = y;
       pointer.nx = (x / Math.max(1, rect.width)) * 2 - 1;
@@ -165,103 +239,85 @@ export function HeroParticleCanvas() {
       pointer.pulse = 1;
     };
 
-    container.addEventListener("pointermove", onPointerMove);
-    container.addEventListener("pointerleave", onPointerLeave);
-    container.addEventListener("pointerdown", onPointerDown);
-
-    const projected: Array<{
-      sx: number;
-      sy: number;
-      scale: number;
-      z: number;
-      p: Particle3D;
-      hoverGlow: number;
-    }> = new Array(particles.length);
+    interactionTarget.addEventListener("pointermove", onPointerMove);
+    interactionTarget.addEventListener("pointerleave", onPointerLeave);
+    interactionTarget.addEventListener("pointerdown", onPointerDown);
 
     const renderFrame = () => {
       if (!prefersReducedMotion) {
-        time += 0.014;
+        time += 0.018;
       }
 
-      // Smoothly ease camera tilt toward pointer
-      const targetRotY = 0.65 + (prefersReducedMotion ? 0 : time * 0.22) + pointer.nx * 0.45;
-      const targetRotX = 0.52 + pointer.ny * 0.32;
-      rotY += (targetRotY - rotY) * 0.06;
-      rotX += (targetRotX - rotX) * 0.06;
+      const idleSwingY = prefersReducedMotion ? 0 : Math.sin(time * 0.7) * 0.22;
+      const idleSwingX = prefersReducedMotion ? 0 : Math.cos(time * 0.5) * 0.1;
+      const targetRotY = idleSwingY + pointer.nx * 0.45;
+      const targetRotX = idleSwingX - pointer.ny * 0.3;
+
+      rotY += (targetRotY - rotY) * 0.08;
+      rotX += (targetRotX - rotX) * 0.08;
 
       if (pointer.pulse > 0.005) {
-        pointer.pulse *= 0.92;
+        pointer.pulse *= 0.9;
       } else {
         pointer.pulse = 0;
       }
 
       ctx.clearRect(0, 0, width, height);
 
-      // Subtle architectural grid lines
-      const gridStep = 44;
-      ctx.strokeStyle = "rgba(245, 245, 240, 0.045)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      for (let gx = gridStep; gx < width; gx += gridStep) {
-        ctx.moveTo(gx, 0);
-        ctx.lineTo(gx, height);
-      }
-      for (let gy = gridStep; gy < height; gy += gridStep) {
-        ctx.moveTo(0, gy);
-        ctx.lineTo(width, gy);
-      }
-      ctx.stroke();
-
       const cosY = Math.cos(rotY);
       const sinY = Math.sin(rotY);
       const cosX = Math.cos(rotX);
       const sinX = Math.sin(rotX);
 
-      const cx = width / 2;
-      const cy = height / 2;
-      const fov = Math.min(width, height) * 1.15;
-      const cameraDist = 440;
-      const scaleFactor = Math.min(width, height) / 480;
+      // Position emblem cleanly on the right side on desktop, lower-center on mobile
+      const isDesktop = width >= 1024;
+      const cx = isDesktop ? width * 0.74 : width * 0.5;
+      const cy = isDesktop ? height * 0.48 : height - 175;
+      const baseDim = isDesktop ? Math.min(width * 0.4, height * 0.78) : Math.min(width * 0.76, 300);
+      const fov = baseDim * 1.15;
+      const cameraDist = 420;
+      const scaleFactor = baseDim / 360;
+
+      const projected: Array<{
+        sx: number;
+        sy: number;
+        scale: number;
+        z: number;
+        p: Particle3D;
+        hoverGlow: number;
+      }> = new Array(particles.length);
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Gentle breathing wave on base position
-        const floatY =
-          !prefersReducedMotion && p.layer >= 0
-            ? Math.sin(time * 1.4 + p.layer * 0.9 + p.phase * 0.3) * 5
-            : 0;
+        const floatZ = !prefersReducedMotion ? Math.sin(time * 1.5 + p.phase) * 3 : 0;
+        const pulseScale = 1 + pointer.pulse * 0.28;
 
-        // Click pulse radial expansion
-        const pulseScale = 1 + pointer.pulse * 0.22;
         const tx = p.bx * scaleFactor * pulseScale;
-        const ty = (p.by + floatY) * scaleFactor * pulseScale;
-        const tz = p.bz * scaleFactor * pulseScale;
+        const ty = p.by * scaleFactor * pulseScale;
+        const tz = (p.bz + floatZ) * scaleFactor * pulseScale;
 
-        // Spring back toward target 3D position
-        p.vx += (tx - p.x) * 0.09;
-        p.vy += (ty - p.y) * 0.09;
-        p.vz += (tz - p.z) * 0.09;
+        p.vx += (tx - p.x) * 0.11;
+        p.vy += (ty - p.y) * 0.11;
+        p.vz += (tz - p.z) * 0.11;
 
-        p.vx *= 0.8;
-        p.vy *= 0.8;
-        p.vz *= 0.8;
+        p.vx *= 0.78;
+        p.vy *= 0.78;
+        p.vz *= 0.78;
 
         p.x += p.vx;
         p.y += p.vy;
         p.z += p.vz;
 
-        // 3D rotation around Y then X
         const x1 = p.x * cosY - p.z * sinY;
         const z1 = p.z * cosY + p.x * sinY;
         const y2 = p.y * cosX - z1 * sinX;
         const z2 = z1 * cosX + p.y * sinX;
 
-        const perspective = fov / Math.max(80, cameraDist + z2);
+        const perspective = fov / Math.max(90, cameraDist + z2);
         const sx = cx + x1 * perspective;
         const sy = cy + y2 * perspective;
 
-        // Interactive 2D->3D cursor repulsion
         let hoverGlow = 0;
         if (pointer.active && !prefersReducedMotion) {
           const dx = sx - pointer.px;
@@ -269,11 +325,11 @@ export function HeroParticleCanvas() {
           const dist = Math.hypot(dx, dy);
           const radius = 95;
           if (dist < radius && dist > 0.01) {
-            const force = (1 - dist / radius) * 6.5;
+            const force = (1 - dist / radius) * 8.0;
             hoverGlow = 1 - dist / radius;
-            p.vx += (dx / dist) * force * 0.55;
-            p.vy += (dy / dist) * force * 0.55;
-            p.vz += force * 0.4;
+            p.vx += (dx / dist) * force * 0.65;
+            p.vy += (dy / dist) * force * 0.65;
+            p.vz += force * 0.55;
           }
         }
 
@@ -287,19 +343,18 @@ export function HeroParticleCanvas() {
         };
       }
 
-      // Draw subtle glowing connections near pointer
       if (pointer.active) {
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = 0.9;
         for (let i = 0; i < projected.length; i++) {
           const a = projected[i];
-          if (a.hoverGlow < 0.15) continue;
-          for (let j = i + 1; j < projected.length; j++) {
+          if (a.hoverGlow < 0.25) continue;
+          for (let j = i + 1; j < projected.length; j += 2) {
             const b = projected[j];
-            if (b.hoverGlow < 0.1) continue;
+            if (b.hoverGlow < 0.2) continue;
             const d = Math.hypot(a.sx - b.sx, a.sy - b.sy);
-            if (d < 46) {
-              const alpha = (1 - d / 46) * 0.45 * Math.max(a.hoverGlow, b.hoverGlow);
-              ctx.strokeStyle = `rgba(227, 237, 51, ${alpha.toFixed(3)})`;
+            if (d < 34) {
+              const alpha = (1 - d / 34) * 0.65 * Math.max(a.hoverGlow, b.hoverGlow);
+              ctx.strokeStyle = `rgba(182, 198, 10, ${alpha.toFixed(3)})`;
               ctx.beginPath();
               ctx.moveTo(a.sx, a.sy);
               ctx.lineTo(b.sx, b.sy);
@@ -309,19 +364,19 @@ export function HeroParticleCanvas() {
         }
       }
 
-      // Painter's sort back-to-front
       projected.sort((a, b) => b.z - a.z);
 
       for (let i = 0; i < projected.length; i++) {
         const item = projected[i];
-        const depthAlpha = Math.max(0.18, Math.min(1, 1 - (item.z + 180) / 420));
-        const r = Math.max(0.8, item.p.size * item.scale * (1 + item.hoverGlow * 0.7));
+        const depthAlpha = Math.max(0.28, Math.min(0.95, 1 - (item.z + 60) / 180));
+        const r = Math.max(1.0, item.p.size * item.scale * (1 + item.hoverGlow * 0.45));
 
-        if (item.p.isAccent || item.hoverGlow > 0.2) {
-          const alpha = Math.min(1, depthAlpha + item.hoverGlow * 0.5);
-          ctx.fillStyle = `rgba(227, 237, 51, ${alpha.toFixed(3)})`;
+        if (item.hoverGlow > 0.25) {
+          ctx.fillStyle = `rgba(182, 198, 10, ${Math.min(1, 0.55 + item.hoverGlow * 0.45).toFixed(3)})`;
+        } else if (item.p.isCore) {
+          ctx.fillStyle = `rgba(14, 14, 14, ${depthAlpha.toFixed(3)})`;
         } else {
-          ctx.fillStyle = `rgba(245, 245, 240, ${(depthAlpha * 0.72).toFixed(3)})`;
+          ctx.fillStyle = `rgba(75, 75, 70, ${(depthAlpha * 0.65).toFixed(3)})`;
         }
 
         ctx.beginPath();
@@ -337,11 +392,12 @@ export function HeroParticleCanvas() {
     renderFrame();
 
     return () => {
+      isDisposed = true;
       if (animId) window.cancelAnimationFrame(animId);
       resizeObserver.disconnect();
-      container.removeEventListener("pointermove", onPointerMove);
-      container.removeEventListener("pointerleave", onPointerLeave);
-      container.removeEventListener("pointerdown", onPointerDown);
+      interactionTarget.removeEventListener("pointermove", onPointerMove);
+      interactionTarget.removeEventListener("pointerleave", onPointerLeave);
+      interactionTarget.removeEventListener("pointerdown", onPointerDown);
     };
   }, []);
 
@@ -349,35 +405,10 @@ export function HeroParticleCanvas() {
     <div
       ref={containerRef}
       data-gsap="hero-artwork"
-      className="relative aspect-square w-full overflow-hidden border border-[#242422] bg-[#0e0e0e] md:max-w-134 md:justify-self-center cursor-crosshair select-none"
-      aria-label="Interactive 3D architectural particle sculpture"
+      className="pointer-events-none absolute inset-0 z-0 overflow-visible select-none"
+      aria-hidden="true"
     >
-      {/* Subtle radial spotlight */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(227,237,51,0.08),transparent_65%)]"
-      />
-
-      {/* Corner architectural crosshairs */}
-      <span aria-hidden="true" className="pointer-events-none absolute top-3.5 left-4 font-mono text-[12px] text-[#70706b]">
-        +
-      </span>
-      <span aria-hidden="true" className="pointer-events-none absolute top-3.5 right-4 font-mono text-[12px] text-[#70706b]">
-        +
-      </span>
-      <span aria-hidden="true" className="pointer-events-none absolute bottom-3.5 right-4 font-mono text-[12px] text-[#70706b]">
-        +
-      </span>
-
       <canvas ref={canvasRef} className="block h-full w-full" />
-
-      {/* Minimal interactive hint */}
-      <div className="pointer-events-none absolute bottom-3.5 left-4 flex items-center gap-2">
-        <span className="h-1.5 w-1.5 rounded-full bg-[#e3ed33] animate-pulse" />
-        <span className="font-mono text-[10px] font-semibold tracking-[1px] text-[#a3a39e] uppercase">
-          3D FIELD · MOVE OR CLICK
-        </span>
-      </div>
     </div>
   );
 }
